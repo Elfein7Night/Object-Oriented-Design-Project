@@ -28,4 +28,13 @@ public class Customer {
         subscribedStatus = _subscribed;
     }
 
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "name='" + name + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", subscribedStatus=" + subscribedStatus +
+                '}';
+    }
 }

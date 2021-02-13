@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Store;
 import View.View;
+import javafx.scene.control.Alert;
 
 public class Controller {
     private final Store store;
@@ -15,5 +16,8 @@ public class Controller {
     }
 
 
+    private void alertForException(Exception exception, View view) {
+        view.showAlert(Alert.AlertType.ERROR, exception.toString());
+    }
 
 }
