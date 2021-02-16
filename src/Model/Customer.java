@@ -1,6 +1,8 @@
 package Model;
 
-public class Customer implements Receiver, Sender {
+import java.io.Serializable;
+
+public class Customer implements Serializable, Receiver, Sender {
 
     public final String name;
     private final int phoneNumber;

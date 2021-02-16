@@ -1,24 +1,26 @@
 package Model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
 
     public final String name;
     public final String serialNum;
-    private int storePrice;
-    private int customerPrice;
-    private Customer purchasingCustomer;
+    private final int storePrice;
+    private final int customerPrice;
+    private final Customer customer;
 
     public Product(String _name,
                    String _serialNum,
                    int _storePrice,
                    int _customerPrice,
-                   Customer _purchasingCustomer
+                   Customer _customer
     ) {
         name = _name;
         serialNum = _serialNum;
         storePrice = _storePrice;
         customerPrice = _customerPrice;
-        purchasingCustomer = _purchasingCustomer;
+        customer = _customer;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class Product {
                 ", serialNum='" + serialNum + '\'' +
                 ", storePrice=" + storePrice +
                 ", customerPrice=" + customerPrice +
-                ", purchasingCustomer=" + purchasingCustomer +
+                ", purchasingCustomer=" + customer +
                 '}';
     }
 }
