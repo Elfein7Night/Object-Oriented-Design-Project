@@ -5,10 +5,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -23,20 +20,21 @@ import javafx.stage.Stage;
 public class View extends BorderPane {
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 650;
-    private final Stage stage;
+    public static final int BUTTON_WIDTH = 200;
     private final Alert alert;
-    private final Button addProductBtn;
-    private final Button undoBtn;
-    private final Button showProductBtn;
-    private final Button showAllProductsBtn;
-    private final Button deleteProductBtn;
-    private final Button deleteAllProductsBtn;
-    private final Button sendMessageBtn;
-    private final Button showGainsBtn;
-    private final Button showSubscriptionsResponsesBtn;
+    public final Button addProductBtn;
+    public final Button undoBtn;
+    public final Button showProductBtn;
+    public final Button showAllProductsBtn;
+    public final Button deleteProductBtn;
+    public final Button deleteAllProductsBtn;
+    public final Button sendMessageBtn;
+    public final Button showGainsBtn;
+    public final Button showSubscriptionsResponsesBtn;
 
     public View(Stage _stage) {
-        stage = _stage;
+        super();
+
         alert = new Alert(Alert.AlertType.ERROR);
 
         addProductBtn = new Button("Add Product");
@@ -49,13 +47,20 @@ public class View extends BorderPane {
         showGainsBtn = new Button("Show Store Gains");
         showSubscriptionsResponsesBtn = new Button("Show Subscriptions Responses");
 
+        initMenu();
+
+        _stage.setTitle("Bought Products Manager");
+        _stage.setScene(new Scene(this, WIDTH, HEIGHT));
+        _stage.show();
+    }
+
+    private void initMenu() {
         Text menuTitle = new Text("Menu:");
         menuTitle.setFont(Font.font("Tahoma Bold", FontWeight.BOLD, 20));
         menuTitle.setFill(Color.GOLDENROD);
         menuTitle.setStroke(Color.BLACK);
 
         VBox buttons = new VBox(
-                menuTitle,
                 addProductBtn,
                 undoBtn,
                 showProductBtn,
@@ -68,17 +73,26 @@ public class View extends BorderPane {
         );
         buttons.setSpacing(15);
         buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().forEach(button -> {
+            ((Button) button).setMinWidth(BUTTON_WIDTH);
+            ((Button) button).setMaxWidth(BUTTON_WIDTH);
+        });
+        buttons.getChildren().add(0, menuTitle);
 
         HBox menuBox = new HBox(buttons, new Separator(Orientation.VERTICAL));
         menuBox.setSpacing(15);
-        menuBox.setPadding(new Insets(0,0,0,15));
+        menuBox.setPadding(new Insets(0, 0, 0, 15));
         setLeft(menuBox);
-
-        stage.setTitle("Bought Products Manager");
-        stage.setScene(new Scene(this, WIDTH, HEIGHT));
-        stage.show();
     }
 
+    public static HBox getAlignedTextField(String name, TextField textField) {
+        HBox hb = new HBox();
+        Text txt = new Text(name);
+        hb.getChildren().addAll(txt, textField);
+        hb.setAlignment(Pos.CENTER_RIGHT);
+        HBox.setMargin(txt, new Insets(10, 0, 10, 0));
+        return hb;
+    }
 
     static void setCursorAsSelectInRegion(Region region) {
         region.setCursor(Cursor.HAND);
