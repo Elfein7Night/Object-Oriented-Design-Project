@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 public class FileManager implements Iterable<Product> {
 
-    private File file;
+    private final File file;
     public boolean isAppendable;
     private RandomAccessFile raf;
 

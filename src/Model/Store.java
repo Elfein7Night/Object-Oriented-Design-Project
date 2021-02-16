@@ -50,6 +50,6 @@ public class Store {
     }
 
     public void loadProductsFromFile() {
-
+        map = fileManager.getMapFromFile();
     }
 }
