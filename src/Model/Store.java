@@ -2,27 +2,28 @@ package Model;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.TreeMap;
 
 public class Store {
 
-
     private Map<String, Product> map;
     private FileManager fileManager;
-
+    private Stack<Memento> stack = new Stack<>();
 
     public Store() {
         map = new TreeMap<>();
     }
 
     public void addProduct(Product product) {
+        stack.push(createMemento());
         map.put(product.serialNum, product);
         fileManager.add(product);
     }
 
     // memento + fileManager
     public void undoAdd() {
-
+        setMemento(stack.pop());
     }
 
     public void deleteProduct(String serialNum) {
@@ -50,6 +51,14 @@ public class Store {
     }
 
     public void loadProductsFromFile() {
-        map = fileManager.getMapFromFile();
+
+    }
+
+    public void setMemento(Memento memento) {
+        map = memento.getMemento();
+    }
+
+    public Memento createMemento() {
+        return new Memento(map);
     }
 }
