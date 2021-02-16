@@ -20,9 +20,7 @@ public class Controller {
         createProductForm = new CreateProductForm();
         createProductForm.addEventHandlerToSubmitButton(createProductHandler(createProductForm));
 
-        view.addProductBtn.setOnAction(event -> {
-            view.setCenter(createProductForm);
-        });
+        view.addProductBtn.setOnAction(event -> view.setCenter(createProductForm));
 
     }
 

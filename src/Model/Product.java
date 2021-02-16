@@ -10,6 +10,18 @@ public class Product implements Serializable {
     private final int customerPrice;
     private final Customer customer;
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public int getCustomerPrice() {
+        return customerPrice;
+    }
+
+    public int getStorePrice() {
+        return storePrice;
+    }
+
     public Product(String _name,
                    String _serialNum,
                    int _storePrice,

@@ -7,13 +7,14 @@ import java.util.function.Consumer;
 
 public class FileManager implements Iterable<Product> {
 
+    public static final String FILE_NAME = "products.txt";
     private final File file;
-    public boolean isAppendable;
+    public boolean fileExists;
     private RandomAccessFile raf;
 
     public FileManager() {
-        file = new File("products.txt");
-        isAppendable = file.exists();
+        file = new File(FILE_NAME);
+        fileExists = file.exists();
         resetRAF();
     }
 
@@ -86,7 +87,6 @@ public class FileManager implements Iterable<Product> {
         raf.read(data);
         return data;
     }
-
 
     @Override
     public Iterator<Product> iterator() {

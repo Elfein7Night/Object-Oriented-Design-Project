@@ -8,22 +8,26 @@ import java.util.TreeMap;
 public class Store {
 
     private Map<String, Product> map;
-    private FileManager fileManager;
-    private Stack<Memento> stack = new Stack<>();
+    private final FileManager fileManager;
+    private final Stack<Memento> history;
+    private final SubscribersNotifier subscribersNotifier;
 
     public Store() {
         map = new TreeMap<>();
+        fileManager = new FileManager();
+        history = new Stack<>();
+        subscribersNotifier = SubscribersNotifier.getInstance();
     }
 
     public void addProduct(Product product) {
-        stack.push(createMemento());
+        history.push(createMemento());
         map.put(product.serialNum, product);
         fileManager.add(product);
     }
 
     // memento + fileManager
     public void undoAdd() {
-        setMemento(stack.pop());
+        setMemento(history.pop());
     }
 
     public void deleteProduct(String serialNum) {
@@ -47,11 +51,16 @@ public class Store {
     }
 
     public List<Message> notifySubscriptions(String message) {
-        return null;
+        map.values().stream()
+                .map(Product::getCustomer)
+                .filter(Customer::isSubscribed)
+                .forEach(customer -> subscribersNotifier.sendMSG(customer, new Message(message)));
+
+        return subscribersNotifier.getReceiveMessages();
     }
 
     public void loadProductsFromFile() {
-
+        map = fileManager.getMapFromFile();
     }
 
     public void setMemento(Memento memento) {

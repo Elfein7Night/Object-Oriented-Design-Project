@@ -13,12 +13,14 @@ public class SubscribersNotifier implements Sender, Receiver {
         return _instance;
     }
 
-    private List<List<Message>> receiveMessages;
-    private List<? extends Receiver> observers;
+    private final List<Message> receiveMessages;
+
+    public List<Message> getReceiveMessages() {
+        return receiveMessages;
+    }
 
     private SubscribersNotifier() {
         receiveMessages = new ArrayList<>();
-        observers = new ArrayList<>();
     }
 
     @Override
@@ -28,7 +30,7 @@ public class SubscribersNotifier implements Sender, Receiver {
 
     @Override
     public void sendMSG(Receiver receiver, Message msg) {
-        observers.forEach(observer -> observer.receiveMSG(this, msg));
+        receiver.receiveMSG(this, msg);
     }
 
 }
