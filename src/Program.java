@@ -1,5 +1,5 @@
-import Model.Store;
 import Controller.Controller;
+import Model.StoreCommand;
 import View.View;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -9,7 +9,7 @@ public class Program extends Application {
     @Override
     public void start(Stage stage) {
         new Controller(
-                new Store(),
+                new StoreCommand(),
                 new View(stage)
         );
     }

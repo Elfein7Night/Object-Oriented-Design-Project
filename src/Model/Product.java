@@ -3,7 +3,7 @@ package Model;
 public class Product {
 
     public final String name;
-    private final String serialNum;
+    public final String serialNum;
     private int storePrice;
     private int customerPrice;
     private Customer purchasingCustomer;

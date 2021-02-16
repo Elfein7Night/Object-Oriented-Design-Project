@@ -1,6 +1,6 @@
 package Model;
 
-public class Customer {
+public class Customer implements Receiver, Sender {
 
     public final String name;
     private final int phoneNumber;
@@ -36,5 +36,15 @@ public class Customer {
                 ", phoneNumber=" + phoneNumber +
                 ", subscribedStatus=" + subscribedStatus +
                 '}';
+    }
+
+    @Override
+    public void receiveMSG(Sender sender, Message msg) {
+        sendMSG((Receiver) sender, new Message(name));
+    }
+
+    @Override
+    public void sendMSG(Receiver receiver, Message msg) {
+        receiver.receiveMSG(this, msg);
     }
 }

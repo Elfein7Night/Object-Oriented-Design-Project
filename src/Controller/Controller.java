@@ -1,16 +1,16 @@
 package Controller;
 
-import Model.Store;
+import Model.StoreCommand;
 import View.View;
 import javafx.scene.control.Alert;
 
 public class Controller {
-    private final Store store;
+    private final StoreCommand storeCommand;
     private final View view;
 
 
-    public Controller(Store _store, View _view) {
-        store = _store;
+    public Controller(StoreCommand _storeCommand, View _view) {
+        storeCommand = _storeCommand;
         view = _view;
 
     }
