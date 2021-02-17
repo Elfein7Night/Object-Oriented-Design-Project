@@ -86,7 +86,7 @@ public class Store {
     }
 
     public void loadProductsFromFile() {
-        fileManager.getMapFromFile(map);
+        fileManager.loadMapFromFile(map);
     }
 
     public void setMemento(MapMemento memento) {

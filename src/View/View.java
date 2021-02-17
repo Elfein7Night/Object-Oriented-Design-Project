@@ -1,7 +1,6 @@
 package View;
 
 import Model.Customer;
-import Model.Message;
 import Model.MyException;
 import Model.Product;
 import javafx.geometry.Insets;
@@ -40,7 +39,7 @@ public class View extends BorderPane {
     public final Button showGainsBtn;
     public final Button showSubscriptionsResponsesBtn;
 
-    public View(Stage _stage) {
+    public View(Stage _stage) throws MyException {
         super();
 
         alert = new Alert(Alert.AlertType.ERROR);
@@ -54,6 +53,8 @@ public class View extends BorderPane {
         sendMessageBtn = new Button("Send Message To Subscribers");
         showGainsBtn = new Button("Show Store Gains");
         showSubscriptionsResponsesBtn = new Button("Show Subscriptions Responses");
+
+//        testTableView();
 
         _stage.setTitle("Bought Products Manager");
         _stage.setScene(new Scene(this, WIDTH, HEIGHT));
@@ -134,44 +135,33 @@ public class View extends BorderPane {
     @SuppressWarnings("unchecked")
     public void showAllProducts(List<Product> products) {
         TableView<Product> tableView = new TableView<>();
-        TableColumn<Product, String> name = new TableColumn<>("Name");
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        name.setMaxWidth(80);
-        name.setMinWidth(80);
 
-        TableColumn<Product, String> serialNum = new TableColumn<>("SerialNum");
+        TableColumn<Product, String> serialNum = new TableColumn<>("Serial #");
         serialNum.setCellValueFactory(new PropertyValueFactory<>("serialNum"));
-        serialNum.setMaxWidth(80);
-        serialNum.setMinWidth(80);
 
-        TableColumn<Product, Integer> storePrice = new TableColumn<>("StorePrice");
+        TableColumn<Product, String> name = new TableColumn<>("Product Name");
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Product, Integer> storePrice = new TableColumn<>("Store Price");
         storePrice.setCellValueFactory(new PropertyValueFactory<>("storePrice"));
-        storePrice.setMaxWidth(80);
-        storePrice.setMinWidth(80);
 
-        TableColumn<Product, Integer> customerPrice = new TableColumn<>("CustomerPrice");
+        TableColumn<Product, Integer> customerPrice = new TableColumn<>("Customer Price");
         customerPrice.setCellValueFactory(new PropertyValueFactory<>("customerPrice"));
-        customerPrice.setMaxWidth(100);
-        customerPrice.setMinWidth(100);
 
-        TableColumn<Product, String> customerName = new TableColumn<>("CustomerName");
+        TableColumn<Product, String> customerName = new TableColumn<>("Customer Name");
         customerName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        customerName.setMaxWidth(100);
-        customerName.setMinWidth(100);
 
-        TableColumn<Product, String> customerPhoneNumber = new TableColumn<>("CustomerPhoneNumber");
+        TableColumn<Product, String> customerPhoneNumber = new TableColumn<>("Customer Phone #");
         customerPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        customerPhoneNumber.setMaxWidth(150);
-        customerPhoneNumber.setMinWidth(150);
 
-        TableColumn<Product, Boolean> subscribedStatus = new TableColumn<>("SubscribedStatus");
+        TableColumn<Product, Boolean> subscribedStatus = new TableColumn<>("Subscribed");
         subscribedStatus.setCellValueFactory(new PropertyValueFactory<>("subscribedStatus"));
-        subscribedStatus.setMaxWidth(110);
-        subscribedStatus.setMinWidth(110);
+        subscribedStatus.setMinWidth(80);
+        subscribedStatus.setMaxWidth(80);
 
         tableView.getColumns().addAll(
-                name,
                 serialNum,
+                name,
                 storePrice,
                 customerPrice,
                 customerName,
@@ -179,7 +169,6 @@ public class View extends BorderPane {
                 subscribedStatus
         );
         tableView.getItems().addAll(products);
-        tableView.getSortOrder().addAll(name);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         VBox result = new VBox(tableView);

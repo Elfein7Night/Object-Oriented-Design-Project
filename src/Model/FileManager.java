@@ -47,11 +47,11 @@ public class FileManager implements Iterable<Product> {
                 raf.write(temp);
             }
         } catch (IOException e) {
-            /**/
+            /* ignore */
         }
     }
 
-    public void getMapFromFile(Map<String, Product> map) {
+    public void loadMapFromFile(Map<String, Product> map) {
         forEach(System.out::println); // TODO: for debugging, REMOVE LATER!
         forEach(product -> map.put(product.getSerialNum(), product));
     }
