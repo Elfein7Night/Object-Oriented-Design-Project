@@ -21,7 +21,10 @@ public class OrderSelectForm extends Form {
                 alphabetical,
                 reversedAlphabetical,
                 insertOrder
-        ).forEach(radioButton -> radioButton.setToggleGroup(toggleGroup));
+        ).forEach(radioButton -> {
+            View.setCursorAsSelectInRegion(radioButton);
+            radioButton.setToggleGroup(toggleGroup);
+        });
 
         alphabetical.setSelected(true);
 
