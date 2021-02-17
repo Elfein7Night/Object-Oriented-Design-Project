@@ -52,7 +52,7 @@ public class Product implements Serializable {
     }
 
     public static Comparator<String> compareByInsertOrder() {
-        return (a, b) -> 0;
+        return (a, b) -> 1;
     }
 
     @Override

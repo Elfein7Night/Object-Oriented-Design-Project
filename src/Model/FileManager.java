@@ -29,6 +29,7 @@ public class FileManager implements Iterable<Product> {
             raf.seek(raf.length());
             byte[] data = serialize(product);
             raf.writeInt(data.length);
+            System.out.println("object length: " + data.length);
             raf.write(data);
         } catch (IOException e) {
             //
