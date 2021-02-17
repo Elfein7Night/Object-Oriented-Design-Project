@@ -20,7 +20,8 @@ public class StoreCommand implements Command {
             String phoneNumber,
             boolean subscribedStatus
     ) {
-        return store.createProduct(name,
+        return store.createProduct(
+                name,
                 serialNum,
                 storePrice,
                 customerPrice,
