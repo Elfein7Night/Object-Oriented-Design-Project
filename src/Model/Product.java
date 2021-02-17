@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class Product implements Serializable {
 
@@ -33,6 +34,18 @@ public class Product implements Serializable {
         storePrice = _storePrice;
         customerPrice = _customerPrice;
         customer = _customer;
+    }
+
+    public static Comparator<Product> compareBySerialNum() {
+        return Comparator.comparing(a -> a.serialNum);
+    }
+
+    public static Comparator<Product> compareBySerialNumReversed() {
+        return (a, b) -> b.serialNum.compareTo(a.serialNum);
+    }
+
+    public static Comparator<Product> compareByInsertOrder() {
+        return (a, b) -> 0;
     }
 
     @Override
