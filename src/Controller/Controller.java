@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 public class Controller {
     private final StoreCommand storeCommand;
     private final View view;
-    private CreateProductForm createProductForm;
+    private final CreateProductForm createProductForm;
 
 
     public Controller(StoreCommand _storeCommand, View _view) {
@@ -26,11 +26,39 @@ public class Controller {
 
     private EventHandler<ActionEvent> createProductHandler(CreateProductForm createProductForm) {
         return event -> {
-            //TODO
+            if (createProductForm.getAllFilled()) {
+                try {
+                    int storePrice = createProductForm.storePrice.getText().isEmpty() ? 0 :
+                            Integer.parseInt(createProductForm.storePrice.getText());
+                    int customerPrice = createProductForm.customerPrice.getText().isEmpty() ? 0 :
+                            Integer.parseInt(createProductForm.customerPrice.getText());
+
+                    storeCommand.addProduct(
+                            createProductForm.productName.getText(),
+                            createProductForm.serialNum.getText(),
+                            storePrice,
+                            customerPrice,
+                            createProductForm.customerName.getText(),
+                            createProductForm.customerPhoneNum.getText(),
+                            createProductForm.customerSubscription.isSelected()
+                    );
+                    updateForSuccess();
+                    createProductForm.clear();
+                } catch (Exception exception) {
+                    alertForException(exception);
+                }
+            } else {
+                view.showAlert(Alert.AlertType.ERROR, "Please Fill All Fields!");
+            }
         };
     }
 
-    private void alertForException(Exception exception, View view) {
+    private void updateForSuccess() {
+        view.showAlert(Alert.AlertType.INFORMATION, "Added Successfully!");
+//        view.refreshCurrentView();
+    }
+
+    private void alertForException(Exception exception) {
         view.showAlert(Alert.AlertType.ERROR, exception.toString());
     }
 

@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class Customer implements Serializable, Receiver, Sender {
 
     public final String name;
-    private final int phoneNumber;
+    private final String phoneNumber;
     private boolean subscribedStatus;
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -24,12 +24,18 @@ public class Customer implements Serializable, Receiver, Sender {
         this.subscribedStatus = subscribedStatus;
     }
 
-    public Customer(String _name, int _phoneNumber, boolean _subscribed) {
+    public Customer(String _name, String _phoneNumber, boolean _subscribed) throws MyException {
+        validatePhoneNumber(_phoneNumber);
         name = _name;
         phoneNumber = _phoneNumber;
         subscribedStatus = _subscribed;
     }
 
+    private void validatePhoneNumber(String _phoneNumber) throws MyException {
+        if (!_phoneNumber.matches("[0-9]+")) {
+            throw new MyException("Phone Number Can Only Contain Digits");
+        }
+    }
 
     @Override
     public String toString() {

@@ -19,7 +19,7 @@ public class Store {
         subscribersNotifier = SubscribersNotifier.getInstance();
     }
 
-    public void addProduct(Product product) {
+    private void addProduct(Product product) {
         history.push(createMemento());
         map.put(product.serialNum, product);
         fileManager.add(product);
@@ -71,7 +71,7 @@ public class Store {
         return new Memento(map);
     }
 
-    public Product createProduct(
+    public void createProduct(
             String name,
             String serialNum,
             int storePrice,
@@ -79,8 +79,14 @@ public class Store {
             String customerName,
             String phoneNumber,
             boolean subscribedStatus
-    ) {
-
-        return null;
+    ) throws MyException {
+        Product product = new Product(
+                name,
+                serialNum,
+                storePrice,
+                customerPrice,
+                new Customer(customerName, phoneNumber, subscribedStatus)
+        );
+        addProduct(product);
     }
 }

@@ -28,7 +28,10 @@ public class Product implements Serializable {
                    int _storePrice,
                    int _customerPrice,
                    Customer _customer
-    ) {
+    ) throws MyException {
+        if (_storePrice < 0) throw new MyException("Store Price Can't Be Negative");
+        if (_customerPrice < 0) throw new MyException("Customer Price Can't Be Negative");
+
         name = _name;
         serialNum = _serialNum;
         storePrice = _storePrice;

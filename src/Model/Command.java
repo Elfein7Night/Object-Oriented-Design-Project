@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Command {
 
-    Product createProduct(
+    void addProduct(
             String name,
             String serialNum,
             int storePrice,
@@ -12,9 +12,7 @@ public interface Command {
             String customerName,
             String phoneNumber,
             boolean subscribedStatus
-    );
-
-    void addProduct(Product product);
+    ) throws MyException;
 
     void undoAdd();
 

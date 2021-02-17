@@ -11,7 +11,7 @@ public class StoreCommand implements Command {
     }
 
     @Override
-    public Product createProduct(
+    public void addProduct(
             String name,
             String serialNum,
             int storePrice,
@@ -19,20 +19,16 @@ public class StoreCommand implements Command {
             String customerName,
             String phoneNumber,
             boolean subscribedStatus
-    ) {
-        return store.createProduct(
+    ) throws MyException {
+        store.createProduct(
                 name,
                 serialNum,
                 storePrice,
                 customerPrice,
                 customerName,
                 phoneNumber,
-                subscribedStatus);
-    }
-
-    @Override
-    public void addProduct(Product product) {
-        store.addProduct(product);
+                subscribedStatus
+        );
     }
 
     @Override

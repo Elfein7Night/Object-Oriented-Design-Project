@@ -12,6 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.util.Arrays;
+
 public class CreateProductForm extends VBox {
     public final TextField productName,
             serialNum,
@@ -20,7 +22,7 @@ public class CreateProductForm extends VBox {
             customerName,
             customerPhoneNum;
     public final CheckBox customerSubscription;
-    public final Button submitButton;
+    private final Button submitButton;
 
     public CreateProductForm() {
         super();
@@ -57,7 +59,7 @@ public class CreateProductForm extends VBox {
         setMaxWidth(850);
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(10);
-        setPadding(new Insets(0,250,0,250));
+        setPadding(new Insets(0, 250, 0, 250));
     }
 
     public void addEventHandlerToSubmitButton(EventHandler<ActionEvent> eventHandler) {
@@ -70,10 +72,22 @@ public class CreateProductForm extends VBox {
     }
 
     public boolean getAllFilled() {
-        return productName.getText().trim().isEmpty() ||
+        return !(productName.getText().trim().isEmpty() ||
                 serialNum.getText().trim().isEmpty() ||
                 customerName.getText().trim().isEmpty() ||
-                customerPhoneNum.getText().trim().isEmpty();
+                customerPhoneNum.getText().trim().isEmpty()
+        );
+    }
+
+    public void clear() {
+        Arrays.asList(
+                productName,
+                serialNum,
+                storePrice,
+                customerPrice,
+                customerName,
+                customerPhoneNum
+        ).forEach(textField -> textField.setText(""));
     }
 
 }
