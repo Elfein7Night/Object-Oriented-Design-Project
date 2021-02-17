@@ -25,7 +25,6 @@ public class Store {
         fileManager.add(product);
     }
 
-    // memento + fileManager
     public void undoAdd() {
         setMemento(history.pop());
     }
