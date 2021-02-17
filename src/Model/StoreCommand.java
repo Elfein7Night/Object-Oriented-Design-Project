@@ -20,8 +20,13 @@ public class StoreCommand implements Command {
             String phoneNumber,
             boolean subscribedStatus
     ) {
-
-        return null;
+        return store.createProduct(name,
+                serialNum,
+                storePrice,
+                customerPrice,
+                customerName,
+                phoneNumber,
+                subscribedStatus);
     }
 
     @Override

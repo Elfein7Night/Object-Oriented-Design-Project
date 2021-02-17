@@ -70,4 +70,17 @@ public class Store {
     public Memento createMemento() {
         return new Memento(map);
     }
+
+    public Product createProduct(
+            String name,
+            String serialNum,
+            int storePrice,
+            int customerPrice,
+            String customerName,
+            String phoneNumber,
+            boolean subscribedStatus
+    ) {
+
+        return null;
+    }
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -32,6 +33,12 @@ public class CreateProductForm extends VBox {
         customerSubscription = new CheckBox("Customer Subscription");
         submitButton = new Button("Submit Product");
 
+        HBox customerSubscriptionBox = new HBox(customerSubscription);
+        customerSubscriptionBox.setAlignment(Pos.CENTER);
+
+        HBox submitBox = new HBox(submitButton);
+        submitBox.setAlignment(Pos.CENTER);
+
         getChildren().addAll(
                 new Text("Please Fill All Fields:"),
                 new Text("Product:"),
@@ -42,10 +49,12 @@ public class CreateProductForm extends VBox {
                 new Text("Customer:"),
                 View.getAlignedTextField("Customer Name: ", customerName),
                 View.getAlignedTextField("Customer Phone Number: ", customerPhoneNum),
-                customerSubscription,
-                submitButton
+                customerSubscriptionBox,
+                submitBox
         );
 
+        setMinWidth(850);
+        setMaxWidth(850);
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(10);
         setPadding(new Insets(0,250,0,250));
