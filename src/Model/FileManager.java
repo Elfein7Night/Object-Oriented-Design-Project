@@ -59,7 +59,9 @@ public class FileManager implements Iterable<Product> {
     }
 
     public void clear() {
-
+        for (Product p : this) {
+            remove(p.serialNum);
+        }
     }
 
     private byte[] serialize(Object object) throws IOException {

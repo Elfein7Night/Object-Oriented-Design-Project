@@ -10,6 +10,10 @@ public class StoreCommand implements Command {
         store = new Store();
     }
 
+    public void initMap(int order) {
+        store.initMap(order);
+    }
+
     @Override
     public void addProduct(
             String name,
@@ -32,7 +36,7 @@ public class StoreCommand implements Command {
     }
 
     @Override
-    public void undoAdd() {
+    public void undoAdd() throws MyException {
         store.undoAdd();
     }
 

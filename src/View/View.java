@@ -6,13 +6,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -20,7 +16,7 @@ import javafx.stage.Stage;
 public class View extends BorderPane {
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 650;
-    public static final int BUTTON_WIDTH = 200;
+    public static final int MENU_WIDTH = 200;
     private final Alert alert;
     public final Button addProductBtn;
     public final Button undoBtn;
@@ -47,14 +43,14 @@ public class View extends BorderPane {
         showGainsBtn = new Button("Show Store Gains");
         showSubscriptionsResponsesBtn = new Button("Show Subscriptions Responses");
 
-        initMenu();
+//        initMenu();
 
         _stage.setTitle("Bought Products Manager");
         _stage.setScene(new Scene(this, WIDTH, HEIGHT));
         _stage.show();
     }
 
-    private void initMenu() {
+    public void initMenu() {
         Text menuTitle = new Text("Menu:");
         menuTitle.setFont(Font.font("Tahoma Bold", FontWeight.BOLD, 20));
         menuTitle.setFill(Color.GOLDENROD);
@@ -74,15 +70,19 @@ public class View extends BorderPane {
         buttons.setSpacing(15);
         buttons.setAlignment(Pos.CENTER);
         buttons.getChildren().forEach(button -> {
-            ((Button) button).setMinWidth(BUTTON_WIDTH);
-            ((Button) button).setMaxWidth(BUTTON_WIDTH);
+            ((Button) button).setMinWidth(MENU_WIDTH);
+            ((Button) button).setMaxWidth(MENU_WIDTH);
         });
         buttons.getChildren().add(0, menuTitle);
 
-        HBox menuBox = new HBox(buttons, new Separator(Orientation.VERTICAL));
-        menuBox.setSpacing(15);
-        menuBox.setPadding(new Insets(0, 0, 0, 15));
-        setLeft(menuBox);
+        replaceLeft(buttons);
+    }
+
+    public void replaceLeft(Pane pane) {
+        HBox left = new HBox(pane, new Separator(Orientation.VERTICAL));
+        left.setSpacing(15);
+        left.setPadding(new Insets(0, 0, 0, 15));
+        setLeft(left);
     }
 
     public static HBox getAlignedTextField(String name, TextField textField) {

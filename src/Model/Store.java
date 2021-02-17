@@ -1,9 +1,7 @@
 package Model;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Store {
 
@@ -13,10 +11,25 @@ public class Store {
     private final SubscribersNotifier subscribersNotifier;
 
     public Store() {
-        map = new TreeMap<>();
         fileManager = new FileManager();
         history = new Stack<>();
         subscribersNotifier = SubscribersNotifier.getInstance();
+    }
+
+    public void initMap(int order) {
+        switch (order) {
+            case 1:
+                map = new TreeMap<>(Product.compareBySerialNum());
+                break;
+            case 2:
+                map = new TreeMap<>(Product.compareBySerialNumReversed());
+                break;
+            case 3:
+                map = new TreeMap<>(Product.compareByInsertOrder());
+                break;
+            default:
+                map = new TreeMap<>();
+        }
     }
 
     private void addProduct(Product product) {
@@ -25,9 +38,14 @@ public class Store {
         fileManager.add(product);
     }
 
-    // memento + fileManager
-    public void undoAdd() {
-        setMemento(history.pop());
+    public void undoAdd() throws MyException {
+        try {
+            setMemento(history.pop());
+            fileManager.clear();
+            map.values().forEach(fileManager::add);
+        } catch (EmptyStackException e) {
+            throw new MyException("No Operations To Undo...");
+        }
     }
 
     public void deleteProduct(String serialNum) {
@@ -43,11 +61,15 @@ public class Store {
     }
 
     public List<Product> getAllProducts() {
-        return null;
+        return new ArrayList<>(map.values());
     }
 
     public List<Pair<String, Integer>> getProfits() {
-        return null;
+        return map.values().stream()
+                .map(product -> new Pair<>(
+                        product.serialNum,
+                        product.getCustomerPrice() - product.getStorePrice())
+                ).collect(Collectors.toList());
     }
 
     public List<Message> notifySubscriptions(String message) {

@@ -14,7 +14,7 @@ public interface Command {
             boolean subscribedStatus
     ) throws MyException;
 
-    void undoAdd();
+    void undoAdd() throws MyException;
 
     void deleteProduct(String serialNum);
 

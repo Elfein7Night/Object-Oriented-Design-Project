@@ -1,8 +1,10 @@
 package Controller;
 
+import Model.MyException;
 import Model.StoreCommand;
 import View.View;
 import View.CreateProductForm;
+import View.OrderSelectForm;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -10,23 +12,53 @@ import javafx.scene.control.Alert;
 public class Controller {
     private final StoreCommand storeCommand;
     private final View view;
-    private final CreateProductForm createProductForm;
-
 
     public Controller(StoreCommand _storeCommand, View _view) {
         storeCommand = _storeCommand;
         view = _view;
 
-        createProductForm = new CreateProductForm();
-        createProductForm.addEventHandlerToSubmitButton(createProductHandler(createProductForm));
+        OrderSelectForm OrderSelectForm = new OrderSelectForm();
+        view.replaceLeft(OrderSelectForm);
+        OrderSelectForm.addEventHandlerToSubmitButton(event -> {
+            if (OrderSelectForm.isFormReady()) {
+                storeCommand.initMap(OrderSelectForm.getSelected());
+                view.initMenu();
+            }
+        });
 
-        view.addProductBtn.setOnAction(event -> view.setCenter(createProductForm));
+        view.addProductBtn.setOnAction(event -> {
+            CreateProductForm createProductForm = new CreateProductForm();
+            createProductForm.addEventHandlerToSubmitButton(createProductHandler(createProductForm));
+            view.setCenter(createProductForm);
+        });
 
+        view.undoBtn.setOnAction(event -> {
+            try {
+                storeCommand.undoAdd();
+                updateForSuccess("Operation Completed Successfully");
+            } catch (MyException e) {
+                alertForException(e);
+            }
+        });
+
+        view.showProductBtn.setOnAction(event -> {/*TODO*/});
+
+        view.showAllProductsBtn.setOnAction(event -> {/*TODO*/});
+
+        view.deleteProductBtn.setOnAction(event -> {/*TODO*/});
+
+        view.deleteAllProductsBtn.setOnAction(event -> {/*TODO*/});
+
+        view.sendMessageBtn.setOnAction(event -> {/*TODO*/});
+
+        view.showGainsBtn.setOnAction(event -> {/*TODO*/});
+
+        view.showSubscriptionsResponsesBtn.setOnAction(event -> {/*TODO*/});
     }
 
     private EventHandler<ActionEvent> createProductHandler(CreateProductForm createProductForm) {
         return event -> {
-            if (createProductForm.getAllFilled()) {
+            if (createProductForm.isFormReady()) {
                 try {
                     int storePrice = createProductForm.storePrice.getText().isEmpty() ? 0 :
                             Integer.parseInt(createProductForm.storePrice.getText());
@@ -42,7 +74,7 @@ public class Controller {
                             createProductForm.customerPhoneNum.getText(),
                             createProductForm.customerSubscription.isSelected()
                     );
-                    updateForSuccess();
+                    updateForSuccess("Added Successfully!");
                     createProductForm.clear();
                 } catch (Exception exception) {
                     alertForException(exception);
@@ -53,9 +85,8 @@ public class Controller {
         };
     }
 
-    private void updateForSuccess() {
-        view.showAlert(Alert.AlertType.INFORMATION, "Added Successfully!");
-//        view.refreshCurrentView();
+    private void updateForSuccess(String message) {
+        view.showAlert(Alert.AlertType.INFORMATION, message);
     }
 
     private void alertForException(Exception exception) {

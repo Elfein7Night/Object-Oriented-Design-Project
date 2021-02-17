@@ -39,15 +39,15 @@ public class Product implements Serializable {
         customer = _customer;
     }
 
-    public static Comparator<Product> compareBySerialNum() {
-        return Comparator.comparing(a -> a.serialNum);
+    public static Comparator<String> compareBySerialNum() {
+        return Comparator.naturalOrder();
     }
 
-    public static Comparator<Product> compareBySerialNumReversed() {
-        return (a, b) -> b.serialNum.compareTo(a.serialNum);
+    public static Comparator<String> compareBySerialNumReversed() {
+        return Comparator.reverseOrder();
     }
 
-    public static Comparator<Product> compareByInsertOrder() {
+    public static Comparator<String> compareByInsertOrder() {
         return (a, b) -> 0;
     }
 

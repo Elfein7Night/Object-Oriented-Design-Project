@@ -1,20 +1,15 @@
 package View;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.Arrays;
 
-public class CreateProductForm extends VBox {
+public class CreateProductForm extends Form {
     public final TextField productName,
             serialNum,
             storePrice,
@@ -22,10 +17,9 @@ public class CreateProductForm extends VBox {
             customerName,
             customerPhoneNum;
     public final CheckBox customerSubscription;
-    private final Button submitButton;
 
     public CreateProductForm() {
-        super();
+        super("Submit Product");
         productName = new TextField();
         serialNum = new TextField();
         storePrice = new TextField();
@@ -33,7 +27,6 @@ public class CreateProductForm extends VBox {
         customerName = new TextField();
         customerPhoneNum = new TextField();
         customerSubscription = new CheckBox("Customer Subscription");
-        submitButton = new Button("Submit Product");
 
         HBox customerSubscriptionBox = new HBox(customerSubscription);
         customerSubscriptionBox.setAlignment(Pos.CENTER);
@@ -62,23 +55,6 @@ public class CreateProductForm extends VBox {
         setPadding(new Insets(0, 250, 0, 250));
     }
 
-    public void addEventHandlerToSubmitButton(EventHandler<ActionEvent> eventHandler) {
-        submitButton.setOnAction(eventHandler);
-        setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                submitButton.fire();
-            }
-        });
-    }
-
-    public boolean getAllFilled() {
-        return !(productName.getText().trim().isEmpty() ||
-                serialNum.getText().trim().isEmpty() ||
-                customerName.getText().trim().isEmpty() ||
-                customerPhoneNum.getText().trim().isEmpty()
-        );
-    }
-
     public void clear() {
         Arrays.asList(
                 productName,
@@ -90,4 +66,12 @@ public class CreateProductForm extends VBox {
         ).forEach(textField -> textField.setText(""));
     }
 
+    @Override
+    public boolean isFormReady() {
+        return !(productName.getText().trim().isEmpty() ||
+                serialNum.getText().trim().isEmpty() ||
+                customerName.getText().trim().isEmpty() ||
+                customerPhoneNum.getText().trim().isEmpty()
+        );
+    }
 }
