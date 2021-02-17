@@ -43,11 +43,14 @@ public class Controller {
 
         view.showProductBtn.setOnAction(event -> {/*TODO*/});
 
-        view.showAllProductsBtn.setOnAction(event -> {/*TODO*/});
+        view.showAllProductsBtn.setOnAction(event -> view.showAllProducts(storeCommand.getAllProducts()));
 
         view.deleteProductBtn.setOnAction(event -> {/*TODO*/});
 
-        view.deleteAllProductsBtn.setOnAction(event -> {/*TODO*/});
+        view.deleteAllProductsBtn.setOnAction(event -> {
+            storeCommand.deleteAllProducts();
+            updateForSuccess("Deleted All Products");
+        });
 
         view.sendMessageBtn.setOnAction(event -> {/*TODO*/});
 

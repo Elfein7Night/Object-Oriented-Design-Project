@@ -2,7 +2,7 @@ package Model;
 
 import java.io.*;
 import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class FileManager implements Iterable<Product> {
@@ -40,8 +40,7 @@ public class FileManager implements Iterable<Product> {
         long lastPosition;
         while (iterator.hasNext()) try {
             lastPosition = raf.getFilePointer();
-            if (iterator.next().serialNum.equals(serialNum)) {
-
+            if (iterator.next().getSerialNum().equals(serialNum)) {
                 byte[] temp = new byte[(int) (raf.length() - raf.getFilePointer())];
                 raf.read(temp);
                 raf.setLength(lastPosition);
@@ -52,15 +51,14 @@ public class FileManager implements Iterable<Product> {
         }
     }
 
-    public TreeMap<String, Product> getMapFromFile() {
-        TreeMap<String, Product> map = new TreeMap<>();
-        forEach(product -> map.put(product.serialNum, product));
-        return map;
+    public void getMapFromFile(Map<String, Product> map) {
+        forEach(System.out::println); // TODO: for debugging, REMOVE LATER!
+        forEach(product -> map.put(product.getSerialNum(), product));
     }
 
     public void clear() {
         for (Product p : this) {
-            remove(p.serialNum);
+            remove(p.getSerialNum());
         }
     }
 
@@ -111,6 +109,8 @@ public class FileManager implements Iterable<Product> {
         @Override
         public boolean hasNext() {
             try {
+                System.out.println("hasNext: " + (raf.getFilePointer() < raf.length()) +
+                        " | getFilePointer: " + raf.getFilePointer() + " | length: " + raf.length());
                 return raf.getFilePointer() < raf.length();
             } catch (IOException e) {
                 return false;

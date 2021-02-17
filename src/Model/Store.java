@@ -7,7 +7,7 @@ public class Store {
 
     private Map<String, Product> map;
     private final FileManager fileManager;
-    private final Stack<Memento> history;
+    private final Stack<MapMemento> history;
     private final SubscribersNotifier subscribersNotifier;
 
     public Store() {
@@ -30,11 +30,15 @@ public class Store {
             default:
                 map = new TreeMap<>();
         }
+
+        if (fileManager.fileExists) {
+            loadProductsFromFile();
+        }
     }
 
     private void addProduct(Product product) {
         history.push(createMemento());
-        map.put(product.serialNum, product);
+        map.put(product.getSerialNum(), product);
         fileManager.add(product);
     }
 
@@ -67,7 +71,7 @@ public class Store {
     public List<Pair<String, Integer>> getProfits() {
         return map.values().stream()
                 .map(product -> new Pair<>(
-                        product.serialNum,
+                        product.getSerialNum(),
                         product.getCustomerPrice() - product.getStorePrice())
                 ).collect(Collectors.toList());
     }
@@ -82,15 +86,15 @@ public class Store {
     }
 
     public void loadProductsFromFile() {
-        map = fileManager.getMapFromFile();
+        fileManager.getMapFromFile(map);
     }
 
-    public void setMemento(Memento memento) {
+    public void setMemento(MapMemento memento) {
         map = memento.getMemento();
     }
 
-    public Memento createMemento() {
-        return new Memento(map);
+    public MapMemento createMemento() {
+        return new MapMemento(map);
     }
 
     public void createProduct(

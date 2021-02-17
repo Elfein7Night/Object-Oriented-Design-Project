@@ -15,6 +15,10 @@ public class Product implements Serializable {
         return customer;
     }
 
+    public String getSerialNum() {
+        return serialNum;
+    }
+
     public int getCustomerPrice() {
         return customerPrice;
     }
@@ -61,4 +65,25 @@ public class Product implements Serializable {
                 ", purchasingCustomer=" + customer +
                 '}';
     }
+
+
+    /*  getters specifically for PropertyValueFactory lookup    */
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return customer.getPhoneNumber();
+    }
+
+    public String getCustomerName() {
+        return customer.getCustomerName();
+    }
+
+    public boolean isSubscribedStatus() {
+        return customer.isSubscribed();
+    }
+
+    /*  ******************************************************* */
 }

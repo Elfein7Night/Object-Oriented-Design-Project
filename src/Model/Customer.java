@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Customer implements Serializable, Receiver, Sender {
 
-    public final String name;
+    public final String customerName;
     private final String phoneNumber;
     private boolean subscribedStatus;
 
@@ -12,8 +12,8 @@ public class Customer implements Serializable, Receiver, Sender {
         return phoneNumber;
     }
 
-    public String getName() {
-        return name;
+    public String getCustomerName() {
+        return customerName;
     }
 
     public boolean isSubscribed() {
@@ -26,7 +26,7 @@ public class Customer implements Serializable, Receiver, Sender {
 
     public Customer(String _name, String _phoneNumber, boolean _subscribed) throws MyException {
         validatePhoneNumber(_phoneNumber);
-        name = _name;
+        customerName = _name;
         phoneNumber = _phoneNumber;
         subscribedStatus = _subscribed;
     }
@@ -40,7 +40,7 @@ public class Customer implements Serializable, Receiver, Sender {
     @Override
     public String toString() {
         return "Customer{" +
-                "name='" + name + '\'' +
+                "name='" + customerName + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", subscribedStatus=" + subscribedStatus +
                 '}';
@@ -48,7 +48,7 @@ public class Customer implements Serializable, Receiver, Sender {
 
     @Override
     public void receiveMSG(Sender sender, Message msg) {
-        sendMSG((Receiver) sender, new Message(name));
+        sendMSG((Receiver) sender, new Message(customerName));
     }
 
     @Override

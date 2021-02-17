@@ -3,11 +3,11 @@ package Model;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Memento {
+public class MapMemento {
 
     private Map<String, Product> mapMemento;
 
-    public Memento(Map<String, Product> map) {
+    public MapMemento(Map<String, Product> map) {
         setMemento(map);
     }
 
