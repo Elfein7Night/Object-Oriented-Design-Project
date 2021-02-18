@@ -66,12 +66,10 @@ public class Controller {
             updateForSuccess("Message Sent Successfully");
         });
 
-        view.showGainsBtn.setOnAction(event -> {/*TODO*/});
+        view.showGainsBtn.setOnAction(event -> view.showStoreGain(storeCommand.getProfits()));
 
         view.showSubscriptionsResponsesBtn.setOnAction(event ->
-//                Platform.runLater(() ->
-                        view.showSubscribersResponses(storeCommand.getSubscriptionsResponses())
-//                )
+                view.showSubscribersResponses(storeCommand.getSubscriptionsResponses())
         );
     }
 

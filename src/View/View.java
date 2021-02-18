@@ -1,6 +1,7 @@
 package View;
 
 import Model.Message;
+import Model.Pair;
 import Model.Product;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -166,6 +167,26 @@ public class View extends BorderPane {
         );
         tableView.getItems().addAll(products);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        VBox result = new VBox(tableView);
+        result.setAlignment(Pos.CENTER);
+        result.setSpacing(5);
+        setCenter(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void showStoreGain(List<Pair<String, Integer>> profits) {
+        TableView<Pair> tableView = new TableView<>();
+
+        TableColumn<Pair, String> serialNum = new TableColumn<>("Serial #");
+        serialNum.setCellValueFactory(new PropertyValueFactory<>("first"));
+
+        TableColumn<Pair, Integer> profit = new TableColumn<>("Profit");
+        profit.setCellValueFactory(new PropertyValueFactory<>("second"));
+
+        tableView.getItems().addAll(profits);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableView.getColumns().addAll(serialNum, profit);
 
         VBox result = new VBox(tableView);
         result.setAlignment(Pos.CENTER);
