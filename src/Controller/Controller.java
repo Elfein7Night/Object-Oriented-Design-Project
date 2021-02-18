@@ -57,7 +57,12 @@ public class Controller {
             updateForSuccess("Deleted All Products");
         });
 
-        view.sendMessageBtn.setOnAction(event -> {/*TODO*/});
+        view.sendMessageBtn.setOnAction(event -> {
+            String message = getSingularUserInput("Enter Message To Send To Subscribers:", "Message");
+            if (message == null) return;
+            storeCommand.notifySubscriptions(message);
+            updateForSuccess("Message Sent Successfully");
+        });
 
         view.showGainsBtn.setOnAction(event -> {/*TODO*/});
 

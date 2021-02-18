@@ -26,7 +26,7 @@ public interface Command {
 
     List<Pair<String, Integer>> getProfits();
 
-    List<Message> notifySubscriptions(String message);
+    void notifySubscriptions(String message);
 
     void loadProductsFromFile();
 

@@ -85,13 +85,11 @@ public class Store {
                 ).collect(Collectors.toList());
     }
 
-    public List<Message> notifySubscriptions(String message) {
+    public void notifySubscriptions(String message) {
         map.values().stream()
                 .map(Product::getCustomer)
                 .filter(Customer::isSubscribed)
                 .forEach(customer -> subscribersNotifier.sendMSG(customer, new Message(message)));
-
-        return subscribersNotifier.getReceiveMessages();
     }
 
     public void loadProductsFromFile() {
@@ -106,7 +104,7 @@ public class Store {
         return new MapMemento(map);
     }
 
-    public void createProduct(
+    public void addProduct(
             String name,
             String serialNum,
             int storePrice,

@@ -24,7 +24,7 @@ public class StoreCommand implements Command {
             String phoneNumber,
             boolean subscribedStatus
     ) throws MyException {
-        store.createProduct(
+        store.addProduct(
                 name,
                 serialNum,
                 storePrice,
@@ -66,8 +66,8 @@ public class StoreCommand implements Command {
     }
 
     @Override
-    public List<Message> notifySubscriptions(String message) {
-        return store.notifySubscriptions(message);
+    public void notifySubscriptions(String message) {
+        store.notifySubscriptions(message);
     }
 
     @Override
