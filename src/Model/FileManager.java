@@ -77,13 +77,13 @@ public class FileManager implements Iterable<Product> {
         for (Product p : this) {
             System.out.println(p);
             remove(p.getSerialNum());
-            resetPointer();
+            resetPointer(); // after remove reset cursor since old length is irrelevant
         }
     }
 
     private void resetPointer() {
         try {
-            raf.seek(0); // after remove reset cursor since old length is irrelevant
+            raf.seek(0);
         } catch (IOException e) {
             /**/
         }
