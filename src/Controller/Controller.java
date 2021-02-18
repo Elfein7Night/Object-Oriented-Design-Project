@@ -123,6 +123,7 @@ public class Controller {
 
     private String getSingularUserInput(String message, String expectedInput) {
         TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle(null);
         dialog.setHeaderText(message);
         dialog.setContentText(expectedInput + ":");
         Optional<String> result = dialog.showAndWait();

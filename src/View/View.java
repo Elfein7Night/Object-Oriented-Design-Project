@@ -40,6 +40,7 @@ public class View extends BorderPane {
         super();
 
         alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
 
         addProductBtn = new Button("Add Product");
         undoBtn = new Button("Undo Last Add");
@@ -116,7 +117,6 @@ public class View extends BorderPane {
     public void showAlert(Alert.AlertType type, String message) {
         alert.setAlertType(type);
         alert.setContentText(message);
-        alert.setHeaderText(null);
         alert.show();
     }
 
