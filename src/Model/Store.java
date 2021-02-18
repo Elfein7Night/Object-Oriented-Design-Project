@@ -94,7 +94,7 @@ public class Store {
                 .forEach(customer -> subscribersNotifier.sendMSG(customer, new Message(message)));
     }
 
-    public void loadProductsFromFile() {
+    private void loadProductsFromFile() {
         fileManager.loadMapFromFile(map);
     }
 
@@ -123,5 +123,9 @@ public class Store {
                 new Customer(customerName, phoneNumber, subscribedStatus)
         );
         addProduct(product);
+    }
+
+    public List<Message> getSubscriptionsResponses() {
+        return subscribersNotifier.getReceiveMessages();
     }
 }

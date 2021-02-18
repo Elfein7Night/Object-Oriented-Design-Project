@@ -1,6 +1,8 @@
 package View;
 
+import Model.Message;
 import Model.Product;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -57,14 +59,20 @@ public class View extends BorderPane {
         _stage.show();
     }
 
-//    private void test(){
-//        TextArea textarea = new TextArea();
-//        textarea.appendText("");
-//
-//        List<Message> messages = new ArrayList<>();
-//
-//        messages.forEach(message -> textarea.appendText(message.getMsg()));
-//    }
+    public void showSubscribersResponses(List<Message> messages) {
+        TextArea textarea = new TextArea();
+        textarea.setEditable(false);
+        setCenter(textarea);
+
+        new Thread(() -> messages.forEach(message -> {
+            Platform.runLater(() -> textarea.appendText(message.toString()));
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        })).start();
+    }
 
     public void initMenu() {
         Text menuTitle = new Text("Menu:");
@@ -137,7 +145,7 @@ public class View extends BorderPane {
         customerPrice.setCellValueFactory(new PropertyValueFactory<>("customerPrice"));
 
         TableColumn<Product, String> customerName = new TableColumn<>("Customer Name");
-        customerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 
         TableColumn<Product, String> customerPhoneNumber = new TableColumn<>("Customer Phone #");
         customerPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));

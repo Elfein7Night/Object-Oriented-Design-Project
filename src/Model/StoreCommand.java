@@ -71,7 +71,8 @@ public class StoreCommand implements Command {
     }
 
     @Override
-    public void loadProductsFromFile() {
-        store.loadProductsFromFile();
+    public List<Message> getSubscriptionsResponses() {
+        return store.getSubscriptionsResponses();
     }
+
 }

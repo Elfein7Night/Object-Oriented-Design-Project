@@ -6,6 +6,7 @@ import Model.StoreCommand;
 import View.View;
 import View.CreateProductForm;
 import View.OrderSelectForm;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert.AlertType;
@@ -68,7 +69,11 @@ public class Controller {
 
         view.showGainsBtn.setOnAction(event -> {/*TODO*/});
 
-        view.showSubscriptionsResponsesBtn.setOnAction(event -> {/*TODO*/});
+        view.showSubscriptionsResponsesBtn.setOnAction(event ->
+//                Platform.runLater(() ->
+                        view.showSubscribersResponses(storeCommand.getSubscriptionsResponses())
+//                )
+        );
     }
 
     private EventHandler<ActionEvent> createProductHandler(CreateProductForm createProductForm) {

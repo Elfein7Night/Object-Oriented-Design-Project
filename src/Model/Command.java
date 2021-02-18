@@ -28,6 +28,5 @@ public interface Command {
 
     void notifySubscriptions(String message);
 
-    void loadProductsFromFile();
-
+    List<Message> getSubscriptionsResponses();
 }

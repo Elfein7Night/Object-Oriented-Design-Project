@@ -32,6 +32,10 @@ public class FileManager implements Iterable<Product> {
     }
 
     public void add(Product product) {
+        //first check product serial num is not in file:
+        if (get(product.getSerialNum()) != null) {
+            remove(product.getSerialNum());
+        }
         try {
             raf.seek(raf.length());
             byte[] data = serialize(product);
@@ -41,6 +45,14 @@ public class FileManager implements Iterable<Product> {
         } catch (IOException e) {
             //
         }
+    }
+
+    public Product get(String serialNum) {
+        for (Product p : this) {
+            if (p.getSerialNum().equals(serialNum))
+                return p;
+        }
+        return null;
     }
 
     public boolean remove(String serialNum) {

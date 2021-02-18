@@ -48,7 +48,7 @@ public class Customer implements Serializable, Receiver, Sender {
 
     @Override
     public void receiveMSG(Sender sender, Message msg) {
-        sendMSG((Receiver) sender, new Message(customerName));
+        sendMSG((Receiver) sender, new Message("My Name Is: " + customerName));
     }
 
     @Override

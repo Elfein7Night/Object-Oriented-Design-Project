@@ -25,6 +25,7 @@ public class SubscribersNotifier implements Sender, Receiver {
 
     @Override
     public void receiveMSG(Sender sender, Message msg) {
+        System.out.println(msg);
         receiveMessages.add(msg);
     }
 
