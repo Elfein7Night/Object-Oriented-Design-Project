@@ -26,7 +26,9 @@ public class Controller {
         view.replaceLeft(OrderSelectForm);
         OrderSelectForm.addEventHandlerToSubmitButton(event -> {
             if (OrderSelectForm.isFormReady()) {
-                storeCommand.initMap(OrderSelectForm.getSelected());
+                if (storeCommand.initMap(OrderSelectForm.getSelected())) {
+                    updateForSuccess("Loaded Map From File");
+                }
                 view.initMenu();
             }
         });

@@ -10,8 +10,8 @@ public class StoreCommand implements Command {
         store = new Store();
     }
 
-    public void initMap(int order) {
-        store.initMap(order);
+    public boolean initMap(int order) {
+        return store.initMap(order);
     }
 
     @Override

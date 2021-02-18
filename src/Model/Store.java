@@ -16,7 +16,7 @@ public class Store {
         subscribersNotifier = SubscribersNotifier.getInstance();
     }
 
-    public void initMap(int order) {
+    public boolean initMap(int order) {
         switch (order) {
             case 1:
                 map = new TreeMap<>(Product.compareBySerialNum());
@@ -33,7 +33,9 @@ public class Store {
 
         if (fileManager.fileExists) {
             loadProductsFromFile();
+            return true;
         }
+        return false;
     }
 
     private void addProduct(Product product) {
