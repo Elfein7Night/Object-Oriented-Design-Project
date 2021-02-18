@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Message;
 import Model.MyException;
 import Model.Product;
 import Model.StoreCommand;
@@ -12,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextInputDialog;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class Controller {
@@ -57,6 +59,7 @@ public class Controller {
         view.deleteAllProductsBtn.setOnAction(event -> {
             storeCommand.deleteAllProducts();
             updateForSuccess("Deleted All Products");
+            view.switchView();
         });
 
         view.sendMessageBtn.setOnAction(event -> {
@@ -66,10 +69,16 @@ public class Controller {
             updateForSuccess("Message Sent Successfully");
         });
 
-        view.showGainsBtn.setOnAction(event -> view.showStoreGain(storeCommand.getProfits()));
+        view.showGainsBtn.setOnAction(event -> view.showStoreGains(storeCommand.getProfits()));
 
-        view.showSubscriptionsResponsesBtn.setOnAction(event ->
-                view.showSubscribersResponses(storeCommand.getSubscriptionsResponses())
+        view.showSubscriptionsResponsesBtn.setOnAction(event -> {
+                    List<Message> responses = storeCommand.getSubscriptionsResponses();
+                    if (responses.isEmpty()) {
+                        view.showAlert(AlertType.WARNING, "No Responses To Show...");
+                    } else {
+                        view.showSubscribersResponses(responses);
+                    }
+                }
         );
     }
 
@@ -86,6 +95,7 @@ public class Controller {
                             createProductForm.getCustomerPhoneNum(),
                             createProductForm.getCustomerSubscription()
                     );
+                    view.switchView();
                     updateForSuccess("Added Successfully!");
                 } catch (Exception exception) {
                     alertForException(exception);
@@ -109,6 +119,7 @@ public class Controller {
         switch (operation) {
             case DeleteProduct:
                 storeCommand.deleteProduct(serialNum);
+                view.switchView();
                 break;
             case ShowProduct:
                 view.showAllProducts(Collections.singletonList(product));

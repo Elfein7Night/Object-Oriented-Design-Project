@@ -15,7 +15,6 @@ public class CreateProductForm extends Form {
             customerName,
             customerPhoneNum;
     private final CheckBox customerSubscription;
-    public static final int PADDING = 250;
 
     public String getProductName() {
         return productName.getText();
@@ -78,9 +77,9 @@ public class CreateProductForm extends Form {
                 submitBox
         );
 
-        setPadding(new Insets(0, PADDING, 0, PADDING));
-        setMinWidth(View.WIDTH - PADDING);
-        setMaxWidth(View.WIDTH - PADDING);
+        setPadding(new Insets(0, View.PADDING, 0, View.PADDING));
+        setMinWidth(View.WIDTH - View.PADDING);
+        setMaxWidth(View.WIDTH - View.PADDING);
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(10);
     }

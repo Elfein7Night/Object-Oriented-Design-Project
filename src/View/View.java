@@ -28,6 +28,8 @@ public class View extends BorderPane {
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 650;
     public static final int MENU_WIDTH = 200;
+    public static final int PADDING = 250;
+
     private final Alert alert;
     public final Button addProductBtn;
     public final Button undoBtn;
@@ -64,15 +66,20 @@ public class View extends BorderPane {
         TextArea textarea = new TextArea();
         textarea.setEditable(false);
         setCenter(textarea);
+        textarea.appendText("> Responses:\n");
 
         new Thread(() -> messages.forEach(message -> {
-            Platform.runLater(() -> textarea.appendText(message.toString()));
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 // ignore
             }
+            Platform.runLater(() -> textarea.appendText(message.toString()));
+            if (message.equals(messages.get(messages.size() - 1))) {
+                Platform.runLater(() -> textarea.appendText("> End of Responses...\n"));
+            }
         })).start();
+
     }
 
     public void initMenu() {
@@ -129,6 +136,10 @@ public class View extends BorderPane {
         alert.show();
     }
 
+    public void switchView() {
+        showAllProductsBtn.fire();
+    }
+
     @SuppressWarnings("unchecked")
     public void showAllProducts(List<Product> products) {
         TableView<Product> tableView = new TableView<>();
@@ -175,22 +186,28 @@ public class View extends BorderPane {
     }
 
     @SuppressWarnings("unchecked")
-    public void showStoreGain(List<Pair<String, Integer>> profits) {
-        TableView<Pair> tableView = new TableView<>();
+    public void showStoreGains(List<Pair<String, Integer>> profits) {
+        TableView<Pair<String, Integer>> tableView = new TableView<>();
 
-        TableColumn<Pair, String> serialNum = new TableColumn<>("Serial #");
+        TableColumn<Pair<String, Integer>, String> serialNum = new TableColumn<>("Serial #");
         serialNum.setCellValueFactory(new PropertyValueFactory<>("first"));
 
-        TableColumn<Pair, Integer> profit = new TableColumn<>("Profit");
+        TableColumn<Pair<String, Integer>, Integer> profit = new TableColumn<>("Profit");
         profit.setCellValueFactory(new PropertyValueFactory<>("second"));
 
         tableView.getItems().addAll(profits);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getColumns().addAll(serialNum, profit);
 
+
         VBox result = new VBox(tableView);
         result.setAlignment(Pos.CENTER);
         result.setSpacing(5);
+        result.setPadding(new Insets(0, PADDING, 0, PADDING));
+        result.setMinWidth(View.WIDTH - PADDING);
+        result.setMaxWidth(View.WIDTH - PADDING);
+        result.setAlignment(Pos.CENTER_LEFT);
         setCenter(result);
     }
+
 }
