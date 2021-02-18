@@ -1,7 +1,5 @@
 package View;
 
-import Model.Customer;
-import Model.MyException;
 import Model.Product;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -21,7 +19,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class View extends BorderPane {
@@ -39,7 +36,7 @@ public class View extends BorderPane {
     public final Button showGainsBtn;
     public final Button showSubscriptionsResponsesBtn;
 
-    public View(Stage _stage) throws MyException {
+    public View(Stage _stage) {
         super();
 
         alert = new Alert(Alert.AlertType.ERROR);
@@ -54,8 +51,6 @@ public class View extends BorderPane {
         showGainsBtn = new Button("Show Store Gains");
         showSubscriptionsResponsesBtn = new Button("Show Subscriptions Responses");
 
-//        testTableView();
-
         _stage.setTitle("Bought Products Manager");
         _stage.setScene(new Scene(this, WIDTH, HEIGHT));
         _stage.show();
@@ -69,13 +64,6 @@ public class View extends BorderPane {
 //
 //        messages.forEach(message -> textarea.appendText(message.getMsg()));
 //    }
-
-    private void testTableView() throws MyException {
-        List<Product> list = new ArrayList<>();
-        Product p1 = new Product("Elazar", "123", 12, 21, new Customer("BeniSela", "054366631", false));
-        list.add(p1);
-        showAllProducts(list);
-    }
 
     public void initMenu() {
         Text menuTitle = new Text("Menu:");
