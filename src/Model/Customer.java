@@ -32,7 +32,7 @@ public class Customer implements Serializable, Receiver, Sender {
     }
 
     private void validatePhoneNumber(String _phoneNumber) throws MyException {
-        if (!_phoneNumber.matches("[0-9]+")) {
+        if (!_phoneNumber.trim().isEmpty() && !_phoneNumber.matches("[0-9]+")) {
             throw new MyException("Phone Number Can Only Contain Digits");
         }
     }

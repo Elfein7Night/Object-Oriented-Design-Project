@@ -7,8 +7,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
-import java.util.Arrays;
-
 public class CreateProductForm extends Form {
     private final TextField productName,
             serialNum,
@@ -66,15 +64,15 @@ public class CreateProductForm extends Form {
         submitBox.setAlignment(Pos.CENTER);
 
         getChildren().addAll(
-                new Text("Please Fill All Fields: (* - required)"),
+                new Text("Please Fill All Required Fields: ( * - required )"),
                 new Text("Product:"),
-                View.getAlignedTextField("*Product Name: ", productName),
-                View.getAlignedTextField("*Serial Number: ", serialNum),
+                View.getAlignedTextField("Product Name: ", productName),
+                View.getAlignedTextField("* Serial Number: ", serialNum),
                 View.getAlignedTextField("Store Price: ", storePrice),
                 View.getAlignedTextField("Customer Price: ", customerPrice),
                 new Text("Customer:"),
-                View.getAlignedTextField("*Customer Name: ", customerName),
-                View.getAlignedTextField("*Customer Phone Number: ", customerPhoneNum),
+                View.getAlignedTextField("Customer Name: ", customerName),
+                View.getAlignedTextField("Customer Phone Number: ", customerPhoneNum),
                 customerSubscriptionBox,
                 submitBox
         );
@@ -99,10 +97,6 @@ public class CreateProductForm extends Form {
 
     @Override
     public boolean isFormReady() {
-        return !(productName.getText().trim().isEmpty() ||
-                serialNum.getText().trim().isEmpty() ||
-                customerName.getText().trim().isEmpty() ||
-                customerPhoneNum.getText().trim().isEmpty()
-        );
+        return !serialNum.getText().trim().isEmpty();
     }
 }
