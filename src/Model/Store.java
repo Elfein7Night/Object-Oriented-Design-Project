@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class Store {
 
-    private Map<String, Product> map;
+    private TreeMap<String, Product> map;
     private final FileManager fileManager;
     private final Stack<MapMemento> history;
     private final SubscribersNotifier subscribersNotifier;
@@ -54,10 +54,14 @@ public class Store {
 
     public void deleteProduct(String serialNum) {
         fileManager.remove(serialNum);
+        map.clear();
+        loadProductsFromFile();
     }
 
     public void deleteAllProducts() {
         fileManager.clear();
+        map.clear();
+        loadProductsFromFile();
     }
 
     public Product getProduct(String serialNum) {

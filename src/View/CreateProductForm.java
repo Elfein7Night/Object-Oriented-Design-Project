@@ -10,13 +10,44 @@ import javafx.scene.text.Text;
 import java.util.Arrays;
 
 public class CreateProductForm extends Form {
-    public final TextField productName,
+    private final TextField productName,
             serialNum,
             storePrice,
             customerPrice,
             customerName,
             customerPhoneNum;
-    public final CheckBox customerSubscription;
+    private final CheckBox customerSubscription;
+
+    public String getProductName() {
+        return productName.getText();
+    }
+
+    public String getSerialNum() {
+        return serialNum.getText();
+    }
+
+    public int getStorePrice() {
+        return storePrice.getText().isEmpty() ? 0 :
+                Integer.parseInt(storePrice.getText());
+    }
+
+    public int getCustomerPrice() {
+        return customerPrice.getText().isEmpty() ? 0 :
+                Integer.parseInt(customerPrice.getText());
+    }
+
+    public String getCustomerName() {
+        return customerName.getText();
+    }
+
+    public String getCustomerPhoneNum() {
+        return customerPhoneNum.getText();
+    }
+
+    public boolean getCustomerSubscription() {
+        return customerSubscription.isSelected();
+    }
+
 
     public CreateProductForm() {
         super("Submit Product");
@@ -35,15 +66,15 @@ public class CreateProductForm extends Form {
         submitBox.setAlignment(Pos.CENTER);
 
         getChildren().addAll(
-                new Text("Please Fill All Fields:"),
+                new Text("Please Fill All Fields: (* - required)"),
                 new Text("Product:"),
-                View.getAlignedTextField("Product Name: ", productName),
-                View.getAlignedTextField("Serial Number: ", serialNum),
+                View.getAlignedTextField("*Product Name: ", productName),
+                View.getAlignedTextField("*Serial Number: ", serialNum),
                 View.getAlignedTextField("Store Price: ", storePrice),
                 View.getAlignedTextField("Customer Price: ", customerPrice),
                 new Text("Customer:"),
-                View.getAlignedTextField("Customer Name: ", customerName),
-                View.getAlignedTextField("Customer Phone Number: ", customerPhoneNum),
+                View.getAlignedTextField("*Customer Name: ", customerName),
+                View.getAlignedTextField("*Customer Phone Number: ", customerPhoneNum),
                 customerSubscriptionBox,
                 submitBox
         );
@@ -55,16 +86,16 @@ public class CreateProductForm extends Form {
         setPadding(new Insets(0, 250, 0, 250));
     }
 
-    public void clear() {
-        Arrays.asList(
-                productName,
-                serialNum,
-                storePrice,
-                customerPrice,
-                customerName,
-                customerPhoneNum
-        ).forEach(textField -> textField.setText(""));
-    }
+//    public void clear() {
+//        Arrays.asList(
+//                productName,
+//                serialNum,
+//                storePrice,
+//                customerPrice,
+//                customerName,
+//                customerPhoneNum
+//        ).forEach(textField -> textField.setText(""));
+//    }
 
     @Override
     public boolean isFormReady() {

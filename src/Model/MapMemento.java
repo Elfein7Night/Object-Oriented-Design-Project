@@ -5,17 +5,17 @@ import java.util.TreeMap;
 
 public class MapMemento {
 
-    private Map<String, Product> mapMemento;
+    private TreeMap<String, Product> mapMemento;
 
-    public MapMemento(Map<String, Product> map) {
+    public MapMemento(TreeMap<String, Product> map) {
         setMemento(map);
     }
 
-    public Map<String, Product> getMemento() {
+    public TreeMap<String, Product> getMemento() {
         return mapMemento;
     }
 
-    public void setMemento(Map<String, Product> map) {
+    public void setMemento(TreeMap<String, Product> map) {
         mapMemento = new TreeMap<>(map);
     }
 }
