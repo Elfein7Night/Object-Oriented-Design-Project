@@ -53,9 +53,14 @@ public class Store {
     }
 
     public void deleteProduct(String serialNum) {
-        fileManager.remove(serialNum);
-        map.clear();
-        loadProductsFromFile();
+        /*
+            only if we deleted something we reload from file,
+            no need to such heavy operations for no reason
+         */
+        if (fileManager.remove(serialNum)) {
+            map.clear();
+            loadProductsFromFile();
+        }
     }
 
     public void deleteAllProducts() {

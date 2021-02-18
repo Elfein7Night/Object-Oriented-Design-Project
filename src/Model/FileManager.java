@@ -1,6 +1,8 @@
 package Model;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -11,6 +13,11 @@ public class FileManager implements Iterable<Product> {
     private final File file;
     public boolean fileExists;
     private RandomAccessFile raf;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    String getTime() {
+        return LocalDateTime.now().format(formatter);
+    }
 
     public FileManager() {
         file = new File(FILE_NAME);
@@ -36,7 +43,7 @@ public class FileManager implements Iterable<Product> {
         }
     }
 
-    public void remove(String serialNum) {
+    public boolean remove(String serialNum) {
         Iterator<Product> iterator = iterator();
         long lastPosition;
         while (iterator.hasNext()) try {
@@ -46,20 +53,39 @@ public class FileManager implements Iterable<Product> {
                 raf.read(temp);
                 raf.setLength(lastPosition);
                 raf.write(temp);
+                return true; // small optimization since we know serialNum only appears once
             }
         } catch (IOException e) {
-            /* ignore */
+            return false;
         }
+        return false;
     }
 
     public void loadMapFromFile(Map<String, Product> map) {
-        forEach(System.out::println); // TODO: for debugging, REMOVE LATER!
-        forEach(product -> map.put(product.getSerialNum(), product));
+        System.out.println("~~~loadMapFromFile~~~");
+        forEach(product -> {
+            System.out.println(product); // TODO: for debugging, REMOVE LATER!
+            map.put(product.getSerialNum(), product);
+        });
     }
 
+    /*
+        O(n) - always access first in the file and delete it.
+     */
     public void clear() {
+        System.out.println("~~~clear~~~");
         for (Product p : this) {
+            System.out.println(p);
             remove(p.getSerialNum());
+            resetPointer();
+        }
+    }
+
+    private void resetPointer() {
+        try {
+            raf.seek(0); // after remove reset cursor since old length is irrelevant
+        } catch (IOException e) {
+            /**/
         }
     }
 
@@ -110,7 +136,7 @@ public class FileManager implements Iterable<Product> {
         @Override
         public boolean hasNext() {
             try {
-                System.out.println("hasNext: " + (raf.getFilePointer() < raf.length()) +
+                System.out.println(getTime() + " hasNext: " + (raf.getFilePointer() < raf.length()) +
                         " | getFilePointer: " + raf.getFilePointer() + " | length: " + raf.length());
                 return raf.getFilePointer() < raf.length();
             } catch (IOException e) {
@@ -121,7 +147,9 @@ public class FileManager implements Iterable<Product> {
         @Override
         public Product next() {
             try {
+                System.out.println("raf.getFilePointer() before read: " + raf.getFilePointer());
                 byte[] data = readByteArray();
+                System.out.println("raf.getFilePointer() after read: " + raf.getFilePointer());
                 return (Product) deserialize(data);
             } catch (IOException | ClassNotFoundException e) {
                 return null;

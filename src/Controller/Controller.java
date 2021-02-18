@@ -1,13 +1,18 @@
 package Controller;
 
 import Model.MyException;
+import Model.Product;
 import Model.StoreCommand;
 import View.View;
 import View.CreateProductForm;
 import View.OrderSelectForm;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
+
+import java.util.Collections;
+import java.util.Optional;
 
 public class Controller {
     private final StoreCommand storeCommand;
@@ -41,11 +46,11 @@ public class Controller {
             }
         });
 
-        view.showProductBtn.setOnAction(event -> {/*TODO*/});
+        view.showProductBtn.setOnAction(event -> operateOnProduct(Operation.ShowProduct));
 
         view.showAllProductsBtn.setOnAction(event -> view.showAllProducts(storeCommand.getAllProducts()));
 
-        view.deleteProductBtn.setOnAction(event -> {/*TODO*/});
+        view.deleteProductBtn.setOnAction(event -> operateOnProduct(Operation.DeleteProduct));
 
         view.deleteAllProductsBtn.setOnAction(event -> {
             storeCommand.deleteAllProducts();
@@ -77,17 +82,46 @@ public class Controller {
                     alertForException(exception);
                 }
             } else {
-                view.showAlert(Alert.AlertType.ERROR, "Please Fill All Required Fields!");
+                view.showAlert(AlertType.ERROR, "Please Fill All Required Fields!");
             }
         };
     }
 
+    enum Operation {DeleteProduct, ShowProduct}
+
+    private void operateOnProduct(Operation operation) {
+        String serialNum = getSingularUserInput("Enter the product's serialNum", "Serial Num");
+        if (serialNum == null) return;
+        Product product = storeCommand.getProduct(serialNum);
+        if (product == null) {
+            view.showAlert(AlertType.WARNING, "No Product With This Serial Number!");
+            return;
+        }
+        switch (operation) {
+            case DeleteProduct:
+                storeCommand.deleteProduct(serialNum);
+                break;
+            case ShowProduct:
+                view.showAllProducts(Collections.singletonList(product));
+                break;
+        }
+        updateForSuccess("Operation Completed Successfully");
+    }
+
     private void updateForSuccess(String message) {
-        view.showAlert(Alert.AlertType.INFORMATION, message);
+        view.showAlert(AlertType.INFORMATION, message);
     }
 
     private void alertForException(Exception exception) {
-        view.showAlert(Alert.AlertType.ERROR, exception.toString());
+        view.showAlert(AlertType.ERROR, exception.toString());
+    }
+
+    private String getSingularUserInput(String message, String expectedInput) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setHeaderText(message);
+        dialog.setContentText(expectedInput + ":");
+        Optional<String> result = dialog.showAndWait();
+        return result.map(String::valueOf).orElse(null);
     }
 
 }
