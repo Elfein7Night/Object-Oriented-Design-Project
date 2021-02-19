@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Optional;
 
 public class View extends BorderPane {
     public static final int WIDTH = 1100;
@@ -48,7 +50,7 @@ public class View extends BorderPane {
     public View(Stage _stage) {
         super();
 
-        alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(AlertType.ERROR);
         alert.setHeaderText(null);
 
         addProductBtn = new Button("Add Product");
@@ -126,10 +128,19 @@ public class View extends BorderPane {
         region.setCursor(Cursor.HAND);
     }
 
-    public void showAlert(Alert.AlertType type, String message) {
+    public void showAlert(AlertType type, String message) {
         alert.setAlertType(type);
         alert.setContentText(message);
         alert.show();
+    }
+
+    public boolean getBooleanFromUser(String message) {
+        Alert getBoolAlert = new Alert(AlertType.CONFIRMATION);
+        getBoolAlert.setContentText(message);
+        getBoolAlert.setHeaderText(null);
+
+        Optional<ButtonType> result = getBoolAlert.showAndWait();
+        return result.map(buttonType -> buttonType == ButtonType.OK).orElse(false);
     }
 
     public void refreshPage() {

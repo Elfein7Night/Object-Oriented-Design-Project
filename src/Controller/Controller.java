@@ -42,6 +42,7 @@ public class Controller {
         });
 
         view.undoBtn.setOnAction(event -> {
+            if (!view.getBooleanFromUser("Are you sure?")) return;
             try {
                 storeCommand.undoAdd();
                 updateForSuccess("Operation Completed Successfully");
@@ -109,7 +110,7 @@ public class Controller {
     enum Operation {DeleteProduct, ShowProduct}
 
     private void operateOnProduct(Operation operation) {
-        String serialNum = getSingularUserInput("Enter the product's serialNum", "Serial Num");
+        String serialNum = getSingularUserInput("Enter The Product's Serial Number", "Serial Num");
         if (serialNum == null) return;
         Product product = storeCommand.getProduct(serialNum);
         if (product == null) {
