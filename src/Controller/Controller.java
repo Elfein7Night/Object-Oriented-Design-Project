@@ -59,7 +59,7 @@ public class Controller {
         view.deleteAllProductsBtn.setOnAction(event -> {
             storeCommand.deleteAllProducts();
             updateForSuccess("Deleted All Products");
-            view.switchView();
+            view.refreshPage();
         });
 
         view.sendMessageBtn.setOnAction(event -> {
@@ -95,7 +95,7 @@ public class Controller {
                             createProductForm.getCustomerPhoneNum(),
                             createProductForm.getCustomerSubscription()
                     );
-                    view.switchView();
+                    view.refreshPage();
                     updateForSuccess("Added Successfully!");
                 } catch (Exception exception) {
                     alertForException(exception);
@@ -119,7 +119,7 @@ public class Controller {
         switch (operation) {
             case DeleteProduct:
                 storeCommand.deleteProduct(serialNum);
-                view.switchView();
+                view.refreshPage();
                 updateForSuccess("Operation Completed Successfully");
                 break;
             case ShowProduct:

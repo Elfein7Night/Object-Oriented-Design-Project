@@ -41,6 +41,10 @@ public class View extends BorderPane {
     public final Button showProfitsBtn;
     public final Button showSubscriptionsResponsesBtn;
 
+    enum Page {ProductsTable, Profits, Else}
+
+    private Page currentPage;
+
     public View(Stage _stage) {
         super();
 
@@ -48,7 +52,7 @@ public class View extends BorderPane {
         alert.setHeaderText(null);
 
         addProductBtn = new Button("Add Product");
-        undoBtn = new Button("Undo Last Add");
+        undoBtn = new Button("Revert to Before Last Add");
         showProductBtn = new Button("Show A Product");
         showAllProductsBtn = new Button("Show All Products");
         deleteProductBtn = new Button("Delete A Product");
@@ -62,29 +66,11 @@ public class View extends BorderPane {
         setCenter(getPrettyText(title, 36));
         setBackground(new Background(new BackgroundFill(Color.CADETBLUE, new CornerRadii(0), new Insets(0, 0, 0, 0))));
 
+        currentPage = Page.Else;
+
         _stage.setTitle(title);
         _stage.setScene(new Scene(this, WIDTH, HEIGHT));
         _stage.show();
-    }
-
-    public void showSubscribersResponses(List<Message> messages) {
-        TextArea textarea = new TextArea();
-        textarea.setEditable(false);
-        setCenter(textarea);
-        textarea.appendText("> Responses:\n");
-
-        new Thread(() -> messages.forEach(message -> {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                // ignore
-            }
-            Platform.runLater(() -> textarea.appendText(message.toString()));
-            if (message.equals(messages.get(messages.size() - 1))) {
-                Platform.runLater(() -> textarea.appendText("> End of Responses...\n"));
-            }
-        })).start();
-
     }
 
     private Text getPrettyText(String msg, int size) {
@@ -146,8 +132,18 @@ public class View extends BorderPane {
         alert.show();
     }
 
-    public void switchView() {
-        showAllProductsBtn.fire();
+    public void refreshPage() {
+        switch (currentPage) {
+            case ProductsTable:
+                showAllProductsBtn.fire();
+                break;
+            case Profits:
+                showProfitsBtn.fire();
+                break;
+            default: {
+                // do nothing
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -193,6 +189,8 @@ public class View extends BorderPane {
         result.setAlignment(Pos.CENTER);
         result.setSpacing(5);
         setCenter(result);
+
+        currentPage = Page.ProductsTable;
     }
 
     @SuppressWarnings("unchecked")
@@ -227,6 +225,29 @@ public class View extends BorderPane {
         result.setMaxWidth(View.WIDTH - PADDING);
         result.setAlignment(Pos.CENTER_LEFT);
         setCenter(result);
+
+        currentPage = Page.Profits;
+    }
+
+    public void showSubscribersResponses(List<Message> messages) {
+        TextArea textarea = new TextArea();
+        textarea.setEditable(false);
+        setCenter(textarea);
+        textarea.appendText("> Responses:\n");
+
+        currentPage = Page.Else;
+
+        new Thread(() -> messages.forEach(message -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+            Platform.runLater(() -> textarea.appendText(message.toString()));
+            if (message.equals(messages.get(messages.size() - 1))) {
+                Platform.runLater(() -> textarea.appendText("> End of Responses...\n"));
+            }
+        })).start();
     }
 
 }
