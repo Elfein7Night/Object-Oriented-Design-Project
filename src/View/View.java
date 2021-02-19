@@ -213,7 +213,8 @@ public class View extends BorderPane {
                 "Total Store Profit: " +
                         profits.stream()
                                 .map(Pair::getSecond)
-                                .mapToInt(Integer::intValue).sum()
+                                .mapToInt(Integer::intValue)
+                                .sum()
         );
 
         totalProfit.setFont(Font.font("Tahoma Bold", FontWeight.BOLD, 16));
