@@ -69,7 +69,7 @@ public class Controller {
             updateForSuccess("Message Sent Successfully");
         });
 
-        view.showGainsBtn.setOnAction(event -> view.showStoreGains(storeCommand.getProfits()));
+        view.showProfitsBtn.setOnAction(event -> view.showStoreProfits(storeCommand.getProfits()));
 
         view.showSubscriptionsResponsesBtn.setOnAction(event -> {
                     List<Message> responses = storeCommand.getSubscriptionsResponses();

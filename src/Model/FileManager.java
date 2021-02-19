@@ -13,9 +13,9 @@ public class FileManager implements Iterable<Product> {
     private final File file;
     public boolean fileExists;
     private RandomAccessFile raf;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //TODO
 
-    String getTime() {
+    String getTime() { //TODO
         return LocalDateTime.now().format(formatter);
     }
 
@@ -32,7 +32,7 @@ public class FileManager implements Iterable<Product> {
     }
 
     public void add(Product product) {
-        //first check product serial num is not in file:
+        //first, check that the product serial num is not in the file:
         if (get(product.getSerialNum()) != null) {
             remove(product.getSerialNum());
         }

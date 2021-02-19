@@ -38,7 +38,7 @@ public class View extends BorderPane {
     public final Button deleteProductBtn;
     public final Button deleteAllProductsBtn;
     public final Button sendMessageBtn;
-    public final Button showGainsBtn;
+    public final Button showProfitsBtn;
     public final Button showSubscriptionsResponsesBtn;
 
     public View(Stage _stage) {
@@ -54,10 +54,15 @@ public class View extends BorderPane {
         deleteProductBtn = new Button("Delete A Product");
         deleteAllProductsBtn = new Button("Delete All Products");
         sendMessageBtn = new Button("Send Message To Subscribers");
-        showGainsBtn = new Button("Show Store Gains");
+        showProfitsBtn = new Button("Show Store Profits");
         showSubscriptionsResponsesBtn = new Button("Show Subscriptions Responses");
 
-        _stage.setTitle("Bought Products Manager");
+        String title = "Bought Products Handler";
+
+        setCenter(getPrettyText(title, 36));
+        setBackground(new Background(new BackgroundFill(Color.STEELBLUE, new CornerRadii(0), new Insets(0, 0, 0, 0))));
+
+        _stage.setTitle(title);
         _stage.setScene(new Scene(this, WIDTH, HEIGHT));
         _stage.show();
     }
@@ -82,11 +87,16 @@ public class View extends BorderPane {
 
     }
 
+    private Text getPrettyText(String msg, int size) {
+        Text text = new Text(msg);
+        text.setFont(Font.font("Tahoma Bold", FontWeight.BOLD, size));
+        text.setFill(Color.GOLDENROD);
+        text.setStroke(Color.BLACK);
+        return text;
+    }
+
     public void initMenu() {
-        Text menuTitle = new Text("Menu:");
-        menuTitle.setFont(Font.font("Tahoma Bold", FontWeight.BOLD, 20));
-        menuTitle.setFill(Color.GOLDENROD);
-        menuTitle.setStroke(Color.BLACK);
+        Text menuTitle = getPrettyText("Menu:", 20);
 
         VBox buttons = new VBox(
                 addProductBtn,
@@ -96,7 +106,7 @@ public class View extends BorderPane {
                 deleteProductBtn,
                 deleteAllProductsBtn,
                 sendMessageBtn,
-                showGainsBtn,
+                showProfitsBtn,
                 showSubscriptionsResponsesBtn
         );
         buttons.setSpacing(15);
@@ -186,7 +196,7 @@ public class View extends BorderPane {
     }
 
     @SuppressWarnings("unchecked")
-    public void showStoreGains(List<Pair<String, Integer>> profits) {
+    public void showStoreProfits(List<Pair<String, Integer>> profits) {
         TableView<Pair<String, Integer>> tableView = new TableView<>();
 
         TableColumn<Pair<String, Integer>, String> serialNum = new TableColumn<>("Serial #");
@@ -199,10 +209,16 @@ public class View extends BorderPane {
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getColumns().addAll(serialNum, profit);
 
+        Text totalProfit = new Text("Total Store Profit: " + profits.stream()
+                .map(Pair::getSecond)
+                .mapToInt(Integer::intValue).sum()
+        );
 
-        VBox result = new VBox(tableView);
+        totalProfit.setFont(Font.font("Tahoma Bold", FontWeight.BOLD, 16));
+
+        VBox result = new VBox(tableView, totalProfit);
         result.setAlignment(Pos.CENTER);
-        result.setSpacing(5);
+        result.setSpacing(15);
         result.setPadding(new Insets(0, PADDING, 0, PADDING));
         result.setMinWidth(View.WIDTH - PADDING);
         result.setMaxWidth(View.WIDTH - PADDING);
