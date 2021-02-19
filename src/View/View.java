@@ -209,9 +209,11 @@ public class View extends BorderPane {
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getColumns().addAll(serialNum, profit);
 
-        Text totalProfit = new Text("Total Store Profit: " + profits.stream()
-                .map(Pair::getSecond)
-                .mapToInt(Integer::intValue).sum()
+        Text totalProfit = new Text(
+                "Total Store Profit: " +
+                        profits.stream()
+                                .map(Pair::getSecond)
+                                .mapToInt(Integer::intValue).sum()
         );
 
         totalProfit.setFont(Font.font("Tahoma Bold", FontWeight.BOLD, 16));
