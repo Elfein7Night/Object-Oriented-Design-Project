@@ -60,7 +60,7 @@ public class View extends BorderPane {
         String title = "Bought Products Handler";
 
         setCenter(getPrettyText(title, 36));
-        setBackground(new Background(new BackgroundFill(Color.STEELBLUE, new CornerRadii(0), new Insets(0, 0, 0, 0))));
+        setBackground(new Background(new BackgroundFill(Color.CADETBLUE, new CornerRadii(0), new Insets(0, 0, 0, 0))));
 
         _stage.setTitle(title);
         _stage.setScene(new Scene(this, WIDTH, HEIGHT));
@@ -151,7 +151,7 @@ public class View extends BorderPane {
     }
 
     @SuppressWarnings("unchecked")
-    public void showAllProducts(List<Product> products) {
+    public void showProducts(List<Product> products) {
         TableView<Product> tableView = new TableView<>();
 
         TableColumn<Product, String> serialNum = new TableColumn<>("Serial #");
