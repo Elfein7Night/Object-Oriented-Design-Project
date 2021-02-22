@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class Store {
 
-    private TreeMap<String, Product> map;
+    private TreeMap<String, Product> productsMap;
     private final FileManager fileManager;
     private final Stack<MapMemento> history;
     private final SubscribersNotifier subscribersNotifier;
@@ -19,16 +19,16 @@ public class Store {
     public boolean initMap(int order) {
         switch (order) {
             case 1:
-                map = new TreeMap<>(Product.compareBySerialNum());
+                productsMap = new TreeMap<>(Product.compareBySerialNum());
                 break;
             case 2:
-                map = new TreeMap<>(Product.compareBySerialNumReversed());
+                productsMap = new TreeMap<>(Product.compareBySerialNumReversed());
                 break;
             case 3:
-                map = new TreeMap<>(Product.compareByInsertOrder());
+                productsMap = new TreeMap<>(Product.compareByInsertOrder());
                 break;
             default:
-                map = new TreeMap<>();
+                productsMap = new TreeMap<>();
         }
 
         if (fileManager.fileExists) {
@@ -40,7 +40,7 @@ public class Store {
 
     private void addProduct(Product product) {
         history.push(createMemento());
-        map.put(product.getSerialNum(), product);
+        productsMap.put(product.getSerialNum(), product);
         fileManager.add(product);
     }
 
@@ -48,7 +48,7 @@ public class Store {
         try {
             setMemento(history.pop());
             fileManager.clear();
-            map.values().forEach(fileManager::add);
+            productsMap.values().forEach(fileManager::add);
         } catch (EmptyStackException e) {
             throw new MyException("No Operations To Undo...");
         }
@@ -60,27 +60,27 @@ public class Store {
             no need to such heavy operations for no reason
          */
         if (fileManager.remove(serialNum)) {
-            map.clear();
+            productsMap.clear();
             loadProductsFromFile();
         }
     }
 
     public void deleteAllProducts() {
         fileManager.clear();
-        map.clear();
+        productsMap.clear();
         loadProductsFromFile();
     }
 
     public Product getProduct(String serialNum) {
-        return map.get(serialNum);
+        return productsMap.get(serialNum);
     }
 
     public List<Product> getAllProducts() {
-        return new ArrayList<>(map.values());
+        return new ArrayList<>(productsMap.values());
     }
 
     public List<Pair<String, Integer>> getProfits() {
-        return map.values().stream()
+        return productsMap.values().stream()
                 .map(product -> new Pair<>(
                         product.getSerialNum(),
                         product.getCustomerPrice() - product.getStorePrice())
@@ -88,22 +88,22 @@ public class Store {
     }
 
     public void notifySubscriptions(String message) {
-        map.values().stream()
+        productsMap.values().stream()
                 .map(Product::getCustomer)
                 .filter(Customer::isSubscribed)
                 .forEach(customer -> subscribersNotifier.sendMSG(customer, new Message(message)));
     }
 
     private void loadProductsFromFile() {
-        fileManager.loadMapFromFile(map);
+        fileManager.loadMapFromFile(productsMap);
     }
 
     public void setMemento(MapMemento memento) {
-        map = memento.getMemento();
+        productsMap = memento.getMemento();
     }
 
     public MapMemento createMemento() {
-        return new MapMemento(map);
+        return new MapMemento(productsMap);
     }
 
     public void addProduct(
