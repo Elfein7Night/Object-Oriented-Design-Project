@@ -115,14 +115,13 @@ public class Store {
             String phoneNumber,
             boolean subscribedStatus
     ) throws MyException {
-        Product product = new Product(
+        addProduct(new Product(
                 name,
                 serialNum,
                 storePrice,
                 customerPrice,
                 new Customer(customerName, phoneNumber, subscribedStatus)
-        );
-        addProduct(product);
+        ));
     }
 
     public List<Message> getSubscriptionsResponses() {
