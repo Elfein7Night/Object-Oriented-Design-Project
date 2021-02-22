@@ -93,8 +93,8 @@ public class View extends BorderPane {
                 showAllProductsBtn,
                 deleteProductBtn,
                 deleteAllProductsBtn,
-                sendMessageBtn,
                 showProfitsBtn,
+                sendMessageBtn,
                 showSubscriptionsResponsesBtn
         );
         buttons.setSpacing(15);
@@ -132,15 +132,6 @@ public class View extends BorderPane {
         alert.setAlertType(type);
         alert.setContentText(message);
         alert.show();
-    }
-
-    public boolean getConfirmationFromUser(String message) {
-        Alert getBoolAlert = new Alert(AlertType.CONFIRMATION);
-        getBoolAlert.setContentText(message);
-        getBoolAlert.setHeaderText(null);
-
-        Optional<ButtonType> result = getBoolAlert.showAndWait();
-        return result.map(buttonType -> buttonType == ButtonType.OK).orElse(false);
     }
 
     public void refreshPage() {

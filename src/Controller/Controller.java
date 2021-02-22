@@ -62,14 +62,14 @@ public class Controller {
             view.refreshPage();
         });
 
+        view.showProfitsBtn.setOnAction(event -> view.showStoreProfits(storeCommand.getProfits()));
+
         view.sendMessageBtn.setOnAction(event -> {
             String message = getSingularUserInput("Enter Message To Send To Subscribers:", "Message");
             if (message == null) return;
             storeCommand.notifySubscriptions(message);
             updateForSuccess("Message Sent Successfully");
         });
-
-        view.showProfitsBtn.setOnAction(event -> view.showStoreProfits(storeCommand.getProfits()));
 
         view.showSubscriptionsResponsesBtn.setOnAction(event -> {
                     List<Message> responses = storeCommand.getSubscriptionsResponses();
