@@ -24,7 +24,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.List;
-import java.util.Optional;
 
 public class View extends BorderPane {
     public static final int WIDTH = 1100;
