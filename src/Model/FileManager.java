@@ -13,11 +13,6 @@ public class FileManager implements Iterable<Product> {
     private final File file;
     public boolean fileExists;
     private RandomAccessFile raf;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); //TODO
-
-    String getTime() { //TODO
-        return LocalDateTime.now().format(formatter);
-    }
 
     public FileManager() {
         file = new File(FILE_NAME);
@@ -45,7 +40,6 @@ public class FileManager implements Iterable<Product> {
             raf.seek(raf.length());
             byte[] data = serialize(product);
             raf.writeInt(data.length);
-            System.out.println("object length: " + data.length);
             raf.write(data);
         } catch (IOException e) {
             //
@@ -79,20 +73,14 @@ public class FileManager implements Iterable<Product> {
     }
 
     public void loadMapFromFile(Map<String, Product> map) {
-        System.out.println("~~~loadMapFromFile~~~");
-        forEach(product -> {
-            System.out.println(product); // TODO: for debugging, REMOVE LATER!
-            map.put(product.getSerialNum(), product);
-        });
+        forEach(product -> map.put(product.getSerialNum(), product));
     }
 
     /*
         O(n) - always access first in the file and delete it.
      */
     public void clear() {
-        System.out.println("~~~clear~~~");
         for (Product p : this) {
-            System.out.println(p);
             remove(p.getSerialNum());
             resetPointer(); // after remove reset cursor since old length is irrelevant
         }
@@ -153,8 +141,6 @@ public class FileManager implements Iterable<Product> {
         @Override
         public boolean hasNext() {
             try {
-                System.out.println(getTime() + " hasNext: " + (raf.getFilePointer() < raf.length()) +
-                        " | getFilePointer: " + raf.getFilePointer() + " | length: " + raf.length());
                 return raf.getFilePointer() < raf.length();
             } catch (IOException e) {
                 return false;
@@ -164,9 +150,7 @@ public class FileManager implements Iterable<Product> {
         @Override
         public Product next() {
             try {
-                System.out.println("raf.getFilePointer() before read: " + raf.getFilePointer());
                 byte[] data = readByteArray();
-                System.out.println("raf.getFilePointer() after read: " + raf.getFilePointer());
                 return (Product) deserialize(data);
             } catch (IOException | ClassNotFoundException e) {
                 return null;
