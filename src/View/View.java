@@ -134,7 +134,7 @@ public class View extends BorderPane {
         alert.show();
     }
 
-    public boolean getBooleanFromUser(String message) {
+    public boolean getConfirmationFromUser(String message) {
         Alert getBoolAlert = new Alert(AlertType.CONFIRMATION);
         getBoolAlert.setContentText(message);
         getBoolAlert.setHeaderText(null);

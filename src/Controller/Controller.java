@@ -42,7 +42,6 @@ public class Controller {
         });
 
         view.undoBtn.setOnAction(event -> {
-            if (!view.getBooleanFromUser("Are you sure?")) return;
             try {
                 storeCommand.undoAdd();
                 updateForSuccess("Operation Completed Successfully");
