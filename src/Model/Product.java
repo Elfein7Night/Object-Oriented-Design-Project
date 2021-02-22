@@ -27,11 +27,12 @@ public class Product implements Serializable {
         return storePrice;
     }
 
-    public Product(String _name,
-                   String _serialNum,
-                   int _storePrice,
-                   int _customerPrice,
-                   Customer _customer
+    public Product(
+            String _name,
+            String _serialNum,
+            int _storePrice,
+            int _customerPrice,
+            Customer _customer
     ) throws MyException {
         if (_storePrice < 0) throw new MyException("Store Price Can't Be Negative");
         if (_customerPrice < 0) throw new MyException("Customer Price Can't Be Negative");
