@@ -32,7 +32,12 @@ public class FileManager implements Iterable<Product> {
     }
 
     public void add(Product product) {
-        //first, check that the product serial num is not in the file:
+        /*
+            first, check that the product serial num is not in the file:
+            we can remove and append the new one at the end since order in the file
+            does not matter, all that matters in terms of order is the comparator
+            of the outside map.
+         */
         if (get(product.getSerialNum()) != null) {
             remove(product.getSerialNum());
         }
