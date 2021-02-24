@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
+
 public abstract class Form extends VBox {
 
     protected final Button submitButton;

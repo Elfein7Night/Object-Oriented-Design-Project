@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
+
 public class CreateProductForm extends Form {
     private final TextField productName,
             serialNum,
