@@ -73,14 +73,13 @@ public class Controller {
         });
 
         view.showSubscriptionsResponsesBtn.setOnAction(event -> {
-                    List<Message> responses = new GetSubscriptionsResponsesCommand(store).get();
-                    if (responses.isEmpty()) {
-                        view.showAlert(AlertType.WARNING, "No Responses To Show...");
-                    } else {
-                        view.showSubscribersResponses(responses);
-                    }
-                }
-        );
+            List<Message> responses = new GetSubscriptionsResponsesCommand(store).get();
+            if (responses.isEmpty()) {
+                view.showAlert(AlertType.WARNING, "No Responses To Show...");
+            } else {
+                view.showSubscribersResponses(responses);
+            }
+        });
     }
 
     private EventHandler<ActionEvent> createProductHandler(CreateProductForm createProductForm) {

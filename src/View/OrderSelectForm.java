@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
+import Model.Command.Store.Order;
 
 import java.util.Arrays;
 
@@ -47,10 +48,10 @@ public class OrderSelectForm extends Form {
         return alphabetical.isSelected() || reversedAlphabetical.isSelected() || insertOrder.isSelected();
     }
 
-    public int getSelected() {
-        if (insertOrder.isSelected()) return 3;
-        if (reversedAlphabetical.isSelected()) return 2;
-        return 1;
+    public Order getSelected() {
+        if (insertOrder.isSelected()) return Order.BY_INSERT_ORDER;
+        if (reversedAlphabetical.isSelected()) return Order.BY_SERIAL_NUM_REVERSED;
+        return Order.BY_SERIAL_NUM;
     }
 
 }

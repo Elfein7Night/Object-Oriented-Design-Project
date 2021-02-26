@@ -27,6 +27,15 @@ public class FileManager implements Iterable<Product> {
         }
     }
 
+    private void resetPointer() {
+        try {
+            raf.seek(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
     public void add(Product product) {
         /*
             first, check that the product serial num is not in the file:
@@ -56,6 +65,12 @@ public class FileManager implements Iterable<Product> {
         return null;
     }
 
+    /*
+        Pretty much same way we did in the lecture/practice:
+            [obj]-[obj]-[obj]-[DELETE]-[obj]-[obj]-[obj]
+            |--do not touch-|          |-save to temp--|
+            set length just before the desired delete obj then add the temp at the end
+     */
     public boolean remove(String serialNum) {
         Iterator<Product> iterator = iterator();
         long lastPosition;
@@ -66,6 +81,7 @@ public class FileManager implements Iterable<Product> {
                 raf.read(temp);
                 raf.setLength(lastPosition);
                 raf.write(temp);
+                resetPointer(); // after remove reset cursor since old length is irrelevant
                 return true; // small optimization since we know serialNum only appears once
             }
         } catch (IOException e) {
@@ -79,25 +95,13 @@ public class FileManager implements Iterable<Product> {
         forEach(product -> map.put(product.getSerialNum(), product));
     }
 
-    /*
-        O(n) - always access first in the file and delete it.
-     */
     public void clear() {
         for (Product p : this) {
             remove(p.getSerialNum());
-            resetPointer(); // after remove reset cursor since old length is irrelevant
         }
     }
 
-    private void resetPointer() {
-        try {
-            raf.seek(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-
+    // an easy and straightforward way to convert a serializable object into byte array
     private byte[] serialize(Object object) throws IOException {
         try (
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -108,6 +112,7 @@ public class FileManager implements Iterable<Product> {
         }
     }
 
+    // an easy and straightforward way to convert a byte array back into its original serializable object
     private Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
         try (
                 ByteArrayInputStream bis = new ByteArrayInputStream(bytes);

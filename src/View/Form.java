@@ -17,6 +17,8 @@ public abstract class Form extends VBox {
 
     public void addEventHandlerToSubmitButton(EventHandler<ActionEvent> eventHandler) {
         submitButton.setOnAction(eventHandler);
+
+        // add support for enter key to submit form
         setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 submitButton.fire();

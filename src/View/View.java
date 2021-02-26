@@ -147,6 +147,10 @@ public class View extends BorderPane {
         }
     }
 
+    /*
+        Build and set TableView to show the products.
+        Values are filled with PropertyValueFactory using Product's getters.
+     */
     @SuppressWarnings("unchecked")
     public void showProducts(List<Product> products, boolean single) {
         TableView<Product> tableView = new TableView<>();
@@ -209,6 +213,7 @@ public class View extends BorderPane {
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.getColumns().addAll(serialNum, profit);
 
+        //  Get profit for each product, then sum.
         Text totalProfit = new Text(
                 "Total Store Profit: " +
                         profits.stream()

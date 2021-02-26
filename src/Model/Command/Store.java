@@ -17,21 +17,23 @@ public class Store implements StoreCommand {
     private final Stack<MapMemento> history;
     private final SubscribersNotifier subscribersNotifier;
 
+    public enum Order {BY_SERIAL_NUM, BY_SERIAL_NUM_REVERSED, BY_INSERT_ORDER}
+
     public Store() {
         fileManager = new FileManager();
         history = new Stack<>();
         subscribersNotifier = SubscribersNotifier.getInstance();
     }
 
-    public boolean initMap(int order) {
+    public boolean initMap(Order order) {
         switch (order) {
-            case 1:
+            case BY_SERIAL_NUM:
                 productsMap = new TreeMap<>(Product.compareBySerialNum());
                 break;
-            case 2:
+            case BY_SERIAL_NUM_REVERSED:
                 productsMap = new TreeMap<>(Product.compareBySerialNumReversed());
                 break;
-            case 3:
+            case BY_INSERT_ORDER:
                 productsMap = new TreeMap<>(Product.compareByInsertOrder());
                 break;
             default:
@@ -40,7 +42,7 @@ public class Store implements StoreCommand {
 
         if (!fileManager.isEmpty()) {
             loadProductsFromFile();
-            return true;
+            return true;    // indicate products were loaded
         }
         return false;
     }
@@ -104,6 +106,7 @@ public class Store implements StoreCommand {
         return new ArrayList<>(productsMap.values());
     }
 
+    // map the products into a list of pairs, each pair is the product's serialNum and its profit.
     public List<Pair<String, Integer>> getProfits() {
         return productsMap.values().stream()
                 .map(product -> new Pair<>(
@@ -112,6 +115,7 @@ public class Store implements StoreCommand {
                 .collect(Collectors.toList());
     }
 
+    // Get all subscribed customers, then notify them.
     public void notifySubscriptions(String message) {
         productsMap.values().stream()
                 .map(Product::getCustomer)

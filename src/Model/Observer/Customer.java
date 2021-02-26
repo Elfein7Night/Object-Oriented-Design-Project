@@ -48,6 +48,7 @@ public class Customer implements Serializable, Receiver, Sender {
                 '}';
     }
 
+    // Respond with name + context
     @Override
     public void receiveMSG(Sender sender, Message msg) {
         sendMSG(
