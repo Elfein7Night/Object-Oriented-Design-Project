@@ -1,4 +1,6 @@
-package Model;
+package Model.Observer;
+
+import Model.MyException;
 
 import java.io.Serializable;
 

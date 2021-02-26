@@ -1,4 +1,6 @@
-package Model;
+package Model.Memento;
+
+import Model.Product;
 
 import java.util.Map;
 import java.util.TreeMap;

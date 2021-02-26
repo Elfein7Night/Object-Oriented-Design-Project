@@ -1,6 +1,6 @@
 package View;
 
-import Model.Message;
+import Model.Observer.Message;
 import Model.Pair;
 import Model.Product;
 import javafx.application.Platform;
@@ -243,9 +243,12 @@ public class View extends BorderPane {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                // ignore
+                e.printStackTrace();
+                System.exit(1);
             }
+
             Platform.runLater(() -> textarea.appendText(message.toString()));
+
             if (message.equals(messages.get(messages.size() - 1))) {
                 Platform.runLater(() -> textarea.appendText("> End of Responses...\n"));
             }

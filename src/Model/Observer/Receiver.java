@@ -1,4 +1,4 @@
-package Model;
+package Model.Observer;
 
 //Observer
 public interface Receiver {

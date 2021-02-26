@@ -1,4 +1,6 @@
-package Model;
+package Model.Iterator;
+
+import Model.Product;
 
 import java.io.*;
 import java.util.Iterator;
@@ -9,12 +11,10 @@ public class FileManager implements Iterable<Product> {
 
     public static final String FILE_NAME = "products.txt";
     private final File file;
-    public boolean fileExists;
     private RandomAccessFile raf;
 
     public FileManager() {
         file = new File(FILE_NAME);
-        fileExists = file.exists();
         resetRAF();
     }
 
@@ -71,7 +71,10 @@ public class FileManager implements Iterable<Product> {
     }
 
     public void loadMapFromFile(Map<String, Product> map) {
-        forEach(product -> map.put(product.getSerialNum(), product));
+        forEach(product -> {
+            System.out.println(product);
+            map.put(product.getSerialNum(), product);
+        });
     }
 
     /*
@@ -116,6 +119,14 @@ public class FileManager implements Iterable<Product> {
         byte[] data = new byte[size];
         raf.read(data);
         return data;
+    }
+
+    public boolean isEmpty() {
+        try {
+            return !file.exists() || raf.length() == 0;
+        } catch (IOException e) {
+            return true;
+        }
     }
 
     @Override

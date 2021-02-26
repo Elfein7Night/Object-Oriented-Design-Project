@@ -1,9 +1,16 @@
-package Model;
+package Model.Command;
+
+import Model.*;
+import Model.Iterator.FileManager;
+import Model.Memento.MapMemento;
+import Model.Observer.Customer;
+import Model.Observer.Message;
+import Model.Observer.SubscribersNotifier;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Store {
+public class Store implements StoreCommand {
 
     private TreeMap<String, Product> productsMap;
     private final FileManager fileManager;
@@ -31,11 +38,29 @@ public class Store {
                 productsMap = new TreeMap<>();
         }
 
-        if (fileManager.fileExists) {
+        if (!fileManager.isEmpty()) {
             loadProductsFromFile();
             return true;
         }
         return false;
+    }
+
+    public void addProduct(
+            String name,
+            String serialNum,
+            int storePrice,
+            int customerPrice,
+            String customerName,
+            String phoneNumber,
+            boolean subscribedStatus
+    ) throws MyException {
+        addProduct(new Product(
+                name,
+                serialNum,
+                storePrice,
+                customerPrice,
+                new Customer(customerName, phoneNumber, subscribedStatus)
+        ));
     }
 
     private void addProduct(Product product) {
@@ -44,13 +69,13 @@ public class Store {
         fileManager.add(product);
     }
 
-    public void undoAdd() throws MyException {
+    public void revertToBeforeLastAdd() throws MyException {
         try {
             setMemento(history.pop());
             fileManager.clear();
             productsMap.values().forEach(fileManager::add);
         } catch (EmptyStackException e) {
-            throw new MyException("No Operations To Undo...");
+            throw new MyException("No States To Revert To...");
         }
     }
 
@@ -83,8 +108,8 @@ public class Store {
         return productsMap.values().stream()
                 .map(product -> new Pair<>(
                         product.getSerialNum(),
-                        product.getCustomerPrice() - product.getStorePrice())
-                ).collect(Collectors.toList());
+                        product.getCustomerPrice() - product.getStorePrice()))
+                .collect(Collectors.toList());
     }
 
     public void notifySubscriptions(String message) {
@@ -104,24 +129,6 @@ public class Store {
 
     public MapMemento createMemento() {
         return new MapMemento(productsMap);
-    }
-
-    public void addProduct(
-            String name,
-            String serialNum,
-            int storePrice,
-            int customerPrice,
-            String customerName,
-            String phoneNumber,
-            boolean subscribedStatus
-    ) throws MyException {
-        addProduct(new Product(
-                name,
-                serialNum,
-                storePrice,
-                customerPrice,
-                new Customer(customerName, phoneNumber, subscribedStatus)
-        ));
     }
 
     public List<Message> getSubscriptionsResponses() {

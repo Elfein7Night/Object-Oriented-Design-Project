@@ -1,8 +1,13 @@
-package Model;
+package Model.Command;
+
+import Model.Observer.Message;
+import Model.MyException;
+import Model.Pair;
+import Model.Product;
 
 import java.util.List;
 
-public interface Command {
+public interface StoreCommand {
 
     void addProduct(
             String name,
@@ -14,7 +19,7 @@ public interface Command {
             boolean subscribedStatus
     ) throws MyException;
 
-    void undoAdd() throws MyException;
+    void revertToBeforeLastAdd() throws MyException;
 
     void deleteProduct(String serialNum);
 

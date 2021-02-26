@@ -1,4 +1,4 @@
-package Model;
+package Model.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,6 @@ public class SubscribersNotifier implements Sender, Receiver {
 
     @Override
     public void receiveMSG(Sender sender, Message msg) {
-        System.out.println(msg);
         receiveMessages.add(msg);
     }
 

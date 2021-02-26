@@ -1,9 +1,8 @@
 package Controller;
 
-import Model.Message;
-import Model.MyException;
-import Model.Product;
-import Model.StoreCommand;
+import Model.*;
+import Model.Command.*;
+import Model.Observer.Message;
 import View.View;
 import View.CreateProductForm;
 import View.OrderSelectForm;
@@ -17,19 +16,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class Controller {
-    private final StoreCommand storeCommand;
+    private final Store store;
     private final View view;
 
-    public Controller(StoreCommand _storeCommand, View _view) {
-        storeCommand = _storeCommand;
+    public Controller(Store _store, View _view) {
+        store = _store;
         view = _view;
 
         OrderSelectForm OrderSelectForm = new OrderSelectForm();
         view.replaceLeft(OrderSelectForm);
         OrderSelectForm.addEventHandlerToSubmitButton(event -> {
             if (OrderSelectForm.isFormReady()) {
-                if (storeCommand.initMap(OrderSelectForm.getSelected())) {
-                    updateForSuccess("Loaded Map From File");
+                if (store.initMap(OrderSelectForm.getSelected())) {
+                    updateForSuccess("Loaded Products From File");
                 }
                 view.initMenu();
             }
@@ -43,8 +42,9 @@ public class Controller {
 
         view.undoBtn.setOnAction(event -> {
             try {
-                storeCommand.undoAdd();
+                new RevertToBeforeLastAddCommand(store).execute();
                 updateForSuccess("Operation Completed Successfully");
+                view.refreshPage();
             } catch (MyException e) {
                 alertForException(e);
             }
@@ -52,27 +52,28 @@ public class Controller {
 
         view.showProductBtn.setOnAction(event -> operateOnProduct(Operation.ShowProduct));
 
-        view.showAllProductsBtn.setOnAction(event -> view.showProducts(storeCommand.getAllProducts()));
+        view.showAllProductsBtn.setOnAction(event -> view.showProducts(new GetAllProductsCommand(store).get()));
 
         view.deleteProductBtn.setOnAction(event -> operateOnProduct(Operation.DeleteProduct));
 
         view.deleteAllProductsBtn.setOnAction(event -> {
-            storeCommand.deleteAllProducts();
+            new DeleteAllProductsCommand(store).execute();
             updateForSuccess("Deleted All Products");
             view.refreshPage();
         });
 
-        view.showProfitsBtn.setOnAction(event -> view.showStoreProfits(storeCommand.getProfits()));
+        view.showProfitsBtn.setOnAction(event -> view.showStoreProfits(new GetProfitsCommand(store).get()));
 
         view.sendMessageBtn.setOnAction(event -> {
             String message = getSingularUserInput("Enter Message To Send To Subscribers:", "Message");
             if (message == null) return;
-            storeCommand.notifySubscriptions(message);
+
+            new NotifySubscriptionsCommand(store, message).execute();
             updateForSuccess("Message Sent Successfully");
         });
 
         view.showSubscriptionsResponsesBtn.setOnAction(event -> {
-                    List<Message> responses = storeCommand.getSubscriptionsResponses();
+                    List<Message> responses = new GetSubscriptionsResponsesCommand(store).get();
                     if (responses.isEmpty()) {
                         view.showAlert(AlertType.WARNING, "No Responses To Show...");
                     } else {
@@ -86,7 +87,8 @@ public class Controller {
         return event -> {
             if (createProductForm.isFormReady()) {
                 try {
-                    storeCommand.addProduct(
+                    new AddProductCommand(
+                            store,
                             createProductForm.getProductName(),
                             createProductForm.getSerialNum(),
                             createProductForm.getStorePrice(),
@@ -94,7 +96,8 @@ public class Controller {
                             createProductForm.getCustomerName(),
                             createProductForm.getCustomerPhoneNum(),
                             createProductForm.getCustomerSubscription()
-                    );
+                    ).execute();
+
                     view.refreshPage();
                     updateForSuccess("Added Successfully!");
                 } catch (Exception exception) {
@@ -111,14 +114,16 @@ public class Controller {
     private void operateOnProduct(Operation operation) {
         String serialNum = getSingularUserInput("Enter The Product's Serial Number", "Serial Num");
         if (serialNum == null) return;
-        Product product = storeCommand.getProduct(serialNum);
+
+        Product product = new GetProductCommand(store, serialNum).get();
         if (product == null) {
             view.showAlert(AlertType.WARNING, "No Product With This Serial Number!");
             return;
         }
+
         switch (operation) {
             case DeleteProduct:
-                storeCommand.deleteProduct(serialNum);
+                new DeleteProductCommand(store, serialNum).execute();
                 view.refreshPage();
                 updateForSuccess("Operation Completed Successfully");
                 break;
