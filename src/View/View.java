@@ -255,6 +255,7 @@ public class View extends BorderPane {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
+                showAlert(AlertType.ERROR, e.toString());
                 e.printStackTrace();
                 System.exit(1);
             }

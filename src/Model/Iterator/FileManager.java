@@ -21,7 +21,10 @@ public class FileManager implements Iterable<Product> {
     private void resetRAF() {
         try {
             raf = new RandomAccessFile(file, "rw");
-        } catch (IOException e) {/**/}
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     public void add(Product product) {
@@ -40,7 +43,8 @@ public class FileManager implements Iterable<Product> {
             raf.writeInt(data.length);
             raf.write(data);
         } catch (IOException e) {
-            //
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
@@ -65,7 +69,8 @@ public class FileManager implements Iterable<Product> {
                 return true; // small optimization since we know serialNum only appears once
             }
         } catch (IOException e) {
-            return false;
+            e.printStackTrace();
+            System.exit(1);
         }
         return false;
     }
@@ -88,7 +93,8 @@ public class FileManager implements Iterable<Product> {
         try {
             raf.seek(0);
         } catch (IOException e) {
-            /**/
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
@@ -122,7 +128,9 @@ public class FileManager implements Iterable<Product> {
         try {
             return !file.exists() || raf.length() == 0;
         } catch (IOException e) {
-            return true;
+            e.printStackTrace();
+            System.exit(1);
+            return false;   // for compilation
         }
     }
 
@@ -149,7 +157,9 @@ public class FileManager implements Iterable<Product> {
             try {
                 return raf.getFilePointer() < raf.length();
             } catch (IOException e) {
-                return false;
+                e.printStackTrace();
+                System.exit(1);
+                return false;   // for compilation
             }
         }
 
@@ -159,7 +169,9 @@ public class FileManager implements Iterable<Product> {
                 byte[] data = readByteArray();
                 return (Product) deserialize(data);
             } catch (IOException | ClassNotFoundException e) {
-                return null;
+                e.printStackTrace();
+                System.exit(1);
+                return null;    // for compilation
             }
         }
     }
