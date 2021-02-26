@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
-
 public class CreateProductForm extends Form {
     private final TextField productName,
             serialNum,
@@ -84,17 +83,6 @@ public class CreateProductForm extends Form {
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(10);
     }
-
-//    public void clear() {
-//        Arrays.asList(
-//                productName,
-//                serialNum,
-//                storePrice,
-//                customerPrice,
-//                customerName,
-//                customerPhoneNum
-//        ).forEach(textField -> textField.setText(""));
-//    }
 
     @Override
     public boolean isFormReady() {
