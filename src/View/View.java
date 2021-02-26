@@ -11,8 +11,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +23,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Collections;
 import java.util.List;
 
 public class View extends BorderPane {
@@ -69,21 +66,7 @@ public class View extends BorderPane {
 
 
         setCenter(getPrettyText(title, 36));
-        // setBackground(new Background(new BackgroundFill(Color.CADETBLUE, new CornerRadii(0), new Insets(0, 0, 0, 0))));
-
-        setBackground(
-                new Background(
-                        Collections.singletonList(new BackgroundFill(
-                                Color.WHITE,
-                                new CornerRadii(0),
-                                new Insets(0))),
-                        Collections.singletonList(new BackgroundImage(
-                                new Image("file:gandalf11.jpg", 100, 100, false, true),
-                                BackgroundRepeat.NO_REPEAT,
-                                BackgroundRepeat.NO_REPEAT,
-                                BackgroundPosition.DEFAULT,
-                                new BackgroundSize(1.0, 1.0, true, true, false, false)
-                        ))));
+        setBackground(new Background(new BackgroundFill(Color.CADETBLUE, new CornerRadii(0), new Insets(0, 0, 0, 0))));
 
         currentPage = Page.Else;
 
