@@ -5,6 +5,7 @@ import Model.Observer.Customer;
 import java.io.Serializable;
 import java.util.Comparator;
 
+@SuppressWarnings("unused")
 public class Product implements Serializable {
 
     public final String name;
@@ -54,6 +55,7 @@ public class Product implements Serializable {
         return Comparator.reverseOrder();
     }
 
+    @SuppressWarnings("all") // we know that it's not really comparing anything...
     public static Comparator<String> compareByInsertOrder() {
         return (a, b) -> 1;
     }
