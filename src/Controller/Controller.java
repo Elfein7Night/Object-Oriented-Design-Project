@@ -52,7 +52,7 @@ public class Controller {
 
         view.showProductBtn.setOnAction(event -> operateOnProduct(Operation.ShowProduct));
 
-        view.showAllProductsBtn.setOnAction(event -> view.showProducts(new GetAllProductsCommand(store).get()));
+        view.showAllProductsBtn.setOnAction(event -> view.showProducts(new GetAllProductsCommand(store).get(), false));
 
         view.deleteProductBtn.setOnAction(event -> operateOnProduct(Operation.DeleteProduct));
 
@@ -128,7 +128,7 @@ public class Controller {
                 updateForSuccess("Operation Completed Successfully");
                 break;
             case ShowProduct:
-                view.showProducts(Collections.singletonList(product));
+                view.showProducts(Collections.singletonList(product), true);
                 break;
         }
     }

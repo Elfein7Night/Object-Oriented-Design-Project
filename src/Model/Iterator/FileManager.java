@@ -71,10 +71,7 @@ public class FileManager implements Iterable<Product> {
     }
 
     public void loadMapFromFile(Map<String, Product> map) {
-        forEach(product -> {
-            System.out.println(product);
-            map.put(product.getSerialNum(), product);
-        });
+        forEach(product -> map.put(product.getSerialNum(), product));
     }
 
     /*

@@ -64,7 +64,6 @@ public class View extends BorderPane {
 
         String title = "Bought Products Handler";
 
-
         setCenter(getPrettyText(title, 36));
         setBackground(new Background(new BackgroundFill(Color.CADETBLUE, new CornerRadii(0), new Insets(0, 0, 0, 0))));
 
@@ -84,7 +83,7 @@ public class View extends BorderPane {
     }
 
     public void initMenu() {
-        Text menuTitle = getPrettyText("Menu:", 20);
+        Text menuTitle = getPrettyText("Menu:", 24);
 
         VBox buttons = new VBox(
                 addProductBtn,
@@ -149,7 +148,7 @@ public class View extends BorderPane {
     }
 
     @SuppressWarnings("unchecked")
-    public void showProducts(List<Product> products) {
+    public void showProducts(List<Product> products, boolean single) {
         TableView<Product> tableView = new TableView<>();
 
         TableColumn<Product, String> serialNum = new TableColumn<>("Serial #");
@@ -187,7 +186,8 @@ public class View extends BorderPane {
         tableView.getItems().addAll(products);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        VBox result = new VBox(tableView);
+        String title = single ? "Single Product Table:" : "All Products Table:";
+        VBox result = new VBox(getPrettyText(title, 30), tableView);
         result.setAlignment(Pos.CENTER);
         result.setSpacing(5);
         setCenter(result);
@@ -218,8 +218,13 @@ public class View extends BorderPane {
         );
 
         totalProfit.setFont(Font.font("Tahoma Bold", FontWeight.BOLD, 16));
+        HBox totalBox = new HBox(totalProfit);
+        totalBox.setAlignment(Pos.CENTER);
 
-        VBox result = new VBox(tableView, totalProfit);
+        HBox titleBox = new HBox(getPrettyText("Profits: ", 30));
+        titleBox.setAlignment(Pos.CENTER);
+
+        VBox result = new VBox(titleBox, tableView, totalBox);
         result.setAlignment(Pos.CENTER);
         result.setSpacing(15);
         result.setPadding(new Insets(0, PADDING, 0, PADDING));
@@ -234,10 +239,17 @@ public class View extends BorderPane {
     public void showSubscribersResponses(List<Message> messages) {
         TextArea textarea = new TextArea();
         textarea.setEditable(false);
+        textarea.setStyle(
+                "-fx-control-inner-background:#5F9EA0; " +
+                        "-fx-highlight-fill: #000000; " +
+                        "-fx-highlight-text-fill: #5F9EA0; " +
+                        "-fx-text-fill: #000000; " +
+                        "-fx-font-size: 14; "
+        );
         setCenter(textarea);
-        textarea.appendText("> Responses:\n");
-
         currentPage = Page.Else;
+
+        textarea.appendText("> Responses:\n");
 
         new Thread(() -> messages.forEach(message -> {
             try {

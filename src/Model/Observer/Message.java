@@ -36,7 +36,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return String.format("Message Date: %s | Message: %s\n", getTime(), msg);
+        return String.format("Message: %s\n", msg);
     }
 
 }

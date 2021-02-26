@@ -52,7 +52,7 @@ public class Customer implements Serializable, Receiver, Sender {
     public void receiveMSG(Sender sender, Message msg) {
         sendMSG(
                 (Receiver) sender,
-                new Message("My Name Is: " + customerName + " | (response to: \"" + msg.getMsg() + "\")")
+                new Message("My Name Is: " + customerName + " | (response to: \"" + msg.getMsg() + "\" @" + msg.getTime() + ")")
         );
     }
 
