@@ -5,7 +5,7 @@ import Model.Iterator.FileManager;
 import Model.Memento.MapMemento;
 import Model.Observer.Customer;
 import Model.Observer.Message;
-import Model.Observer.SubscribersNotifier;
+import Model.Observer.Singleton.SubscribersNotifier;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,6 +17,7 @@ public class Store implements StoreCommand {
     private final Stack<MapMemento> history;
     private final SubscribersNotifier subscribersNotifier;
 
+    // for a safer and more readable switch case implementation.
     public enum Order {BY_SERIAL_NUM, BY_SERIAL_NUM_REVERSED, BY_INSERT_ORDER}
 
     public Store() {
@@ -73,9 +74,9 @@ public class Store implements StoreCommand {
 
     public void revertToBeforeLastAdd() throws MyException {
         try {
-            setMemento(history.pop());
-            fileManager.clear();
-            productsMap.values().forEach(fileManager::add);
+            setMemento(history.pop());                          //  revert map
+            fileManager.clear();                                //  \
+            productsMap.values().forEach(fileManager::add);     //  - revert file
         } catch (EmptyStackException e) {
             throw new MyException("No States To Revert To...");
         }

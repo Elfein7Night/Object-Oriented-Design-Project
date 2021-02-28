@@ -1,4 +1,8 @@
-package Model.Observer;
+package Model.Observer.Singleton;
+
+import Model.Observer.Message;
+import Model.Observer.Receiver;
+import Model.Observer.Sender;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ public class Customer implements Serializable, Receiver, Sender {
 
     public final String customerName;
     private final String phoneNumber;
-    private boolean subscribedStatus;
+    private final boolean subscribedStatus; // final because we never change this value in our program anyway.
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -20,10 +20,6 @@ public class Customer implements Serializable, Receiver, Sender {
 
     public boolean isSubscribed() {
         return subscribedStatus;
-    }
-
-    public void setSubscribedStatus(boolean subscribedStatus) {
-        this.subscribedStatus = subscribedStatus;
     }
 
     public Customer(String _name, String _phoneNumber, boolean _subscribed) throws MyException {

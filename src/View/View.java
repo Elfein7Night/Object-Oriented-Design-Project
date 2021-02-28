@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class View extends BorderPane {
+
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 650;
     public static final int MENU_WIDTH = 200;

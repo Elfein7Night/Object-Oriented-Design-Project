@@ -8,12 +8,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 public class CreateProductForm extends Form {
+
     private final TextField productName,
             serialNum,
             storePrice,
             customerPrice,
             customerName,
             customerPhoneNum;
+
     private final CheckBox customerSubscription;
 
     public String getProductName() {

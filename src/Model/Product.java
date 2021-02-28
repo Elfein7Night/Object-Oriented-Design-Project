@@ -73,7 +73,7 @@ public class Product implements Serializable {
     }
 
 
-    /*  getters specifically for PropertyValueFactory lookup    */
+    /*  getters specifically for PropertyValueFactory lookup (for TableView)    */
 
     public String getName() {
         return name;

@@ -1,9 +1,10 @@
 package Model;
 
+@SuppressWarnings("unused") //  All methods are here for completion sake, even if unused.
 public class Pair<F, S> {
     /*
-        A nice compact class to make some stuff easier/nice to do.
-        same as Pair in Kotlin, and similar to Tuples in Python.
+        A nice compact class to make some stuff easier/nicer to do.
+        Same as Pair in Kotlin, and similar to Tuples in Python.
      */
     private F first;
     private S second;

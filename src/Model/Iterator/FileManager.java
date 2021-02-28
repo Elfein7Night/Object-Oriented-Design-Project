@@ -36,6 +36,14 @@ public class FileManager implements Iterable<Product> {
         }
     }
 
+    public Product get(String serialNum) {
+        for (Product p : this) {
+            if (p.getSerialNum().equals(serialNum))
+                return p;
+        }
+        return null;
+    }
+
     public void add(Product product) {
         /*
             first, check that the product serial num is not in the file:
@@ -57,14 +65,6 @@ public class FileManager implements Iterable<Product> {
         }
     }
 
-    public Product get(String serialNum) {
-        for (Product p : this) {
-            if (p.getSerialNum().equals(serialNum))
-                return p;
-        }
-        return null;
-    }
-
     /*
         Pretty much same way we did in the lecture/practice:
             [obj]-[obj]-[obj]-[DELETE]-[obj]-[obj]-[obj]
@@ -82,7 +82,7 @@ public class FileManager implements Iterable<Product> {
                 raf.setLength(lastPosition);
                 raf.write(temp);
                 resetPointer(); // after remove reset cursor since old length is irrelevant
-                return true; // small optimization since we know serialNum only appears once
+                return true;    // small optimization since we know serialNum only appears once
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,6 +95,7 @@ public class FileManager implements Iterable<Product> {
         forEach(product -> map.put(product.getSerialNum(), product));
     }
 
+    // remove all using iterator
     public void clear() {
         for (Product p : this) {
             remove(p.getSerialNum());
@@ -122,6 +123,7 @@ public class FileManager implements Iterable<Product> {
         }
     }
 
+    //  first read the saved byte array size, then read the array
     private byte[] readByteArray() throws IOException {
         int size = raf.readInt();
         byte[] data = new byte[size];

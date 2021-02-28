@@ -108,6 +108,7 @@ public class Controller {
         };
     }
 
+    // for a safer and more readable switch case implementation.
     enum Operation {DeleteProduct, ShowProduct}
 
     private void operateOnProduct(Operation operation) {
@@ -129,6 +130,8 @@ public class Controller {
             case ShowProduct:
                 view.showProducts(Collections.singletonList(product), true);
                 break;
+            default:
+                // pass
         }
     }
 
