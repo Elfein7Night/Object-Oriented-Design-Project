@@ -38,6 +38,7 @@ public class Controller {
             CreateProductForm createProductForm = new CreateProductForm();
             createProductForm.addEventHandlerToSubmitButton(createProductHandler(createProductForm));
             view.setCenter(createProductForm);
+            view.setCurrentPage(View.Page.AddProduct);
         });
 
         view.undoBtn.setOnAction(event -> {

@@ -43,9 +43,13 @@ public class View extends BorderPane {
     public final Button showProfitsBtn;
     public final Button showSubscriptionsResponsesBtn;
 
-    enum Page {ProductsTable, Profits, Else}
+    public enum Page {ProductsTable, Profits, AddProduct, Else}
 
     private Page currentPage;
+
+    public void setCurrentPage(Page page) {
+        currentPage = page;
+    }
 
     public View(Stage _stage) {
         super();
@@ -68,7 +72,7 @@ public class View extends BorderPane {
         setCenter(getPrettyText(title, 36));
         setBackground(new Background(new BackgroundFill(Color.CADETBLUE, new CornerRadii(0), new Insets(0, 0, 0, 0))));
 
-        currentPage = Page.Else;
+        setCurrentPage(Page.Else);
 
         _stage.setTitle(title);
         _stage.setScene(new Scene(this, WIDTH, HEIGHT));
@@ -136,6 +140,7 @@ public class View extends BorderPane {
 
     public void refreshPage() {
         switch (currentPage) {
+            case AddProduct:
             case ProductsTable:
                 showAllProductsBtn.fire();
                 break;
@@ -197,7 +202,7 @@ public class View extends BorderPane {
         result.setSpacing(5);
         setCenter(result);
 
-        currentPage = Page.ProductsTable;
+        setCurrentPage(Page.ProductsTable);
     }
 
     @SuppressWarnings("unchecked")
@@ -239,7 +244,7 @@ public class View extends BorderPane {
         result.setAlignment(Pos.CENTER_LEFT);
         setCenter(result);
 
-        currentPage = Page.Profits;
+        setCurrentPage(Page.Profits);
     }
 
     public void showSubscribersResponses(List<Message> messages) {
