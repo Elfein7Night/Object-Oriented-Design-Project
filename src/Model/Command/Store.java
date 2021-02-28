@@ -85,7 +85,7 @@ public class Store implements StoreCommand {
     public void deleteProduct(String serialNum) {
         /*
             only if we deleted something we reload from file,
-            no need to such heavy operations for no reason
+            no need to do such heavy operations for no reason
          */
         if (fileManager.remove(serialNum)) {
             productsMap.clear();
