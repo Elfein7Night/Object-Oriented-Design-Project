@@ -55,12 +55,6 @@ public class Product implements Serializable {
         return Comparator.reverseOrder();
     }
 
-    // always return 1 -> each new product moves to the end -> we get insert order
-    @SuppressWarnings("all") // we know that it's not really comparing anything...
-    public static Comparator<String> compareByInsertOrder() {
-        return (a, b) -> 1;
-    }
-
     @Override
     public String toString() {
         return "Product{" +

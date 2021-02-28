@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Store implements StoreCommand {
 
-    private TreeMap<String, Product> productsMap;
+    private Map<String, Product> productsMap;
     private final FileManager fileManager;
     private final Stack<MapMemento> history;
     private final SubscribersNotifier subscribersNotifier;
@@ -35,10 +35,8 @@ public class Store implements StoreCommand {
                 productsMap = new TreeMap<>(Product.compareBySerialNumReversed());
                 break;
             case BY_INSERT_ORDER:
-                productsMap = new TreeMap<>(Product.compareByInsertOrder());
+                productsMap = new LinkedHashMap<>();
                 break;
-            default:
-                productsMap = new TreeMap<>();
         }
 
         if (!fileManager.isEmpty()) {

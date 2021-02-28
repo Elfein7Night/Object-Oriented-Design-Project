@@ -2,22 +2,27 @@ package Model.Memento;
 
 import Model.Product;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class MapMemento {
 
-    private TreeMap<String, Product> mapMemento;
+    private Map<String, Product> mapMemento;
 
-    public MapMemento(TreeMap<String, Product> map) {
+    public MapMemento(Map<String, Product> map) {
         setMemento(map);
     }
 
-    public TreeMap<String, Product> getMemento() {
+    public Map<String, Product> getMemento() {
         return mapMemento;
     }
 
-    public void setMemento(TreeMap<String, Product> map) {
-        mapMemento = new TreeMap<>(map);
+    public void setMemento(Map<String, Product> map) {
+        if (map instanceof TreeMap) {
+            mapMemento = new TreeMap<>((TreeMap<String, Product>) map);
+        } else {
+            mapMemento = new LinkedHashMap<>(map);
+        }
     }
 }
