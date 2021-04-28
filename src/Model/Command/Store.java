@@ -135,6 +135,6 @@ public class Store implements StoreCommand {
     }
 
     public List<Message> getSubscriptionsResponses() {
-        return subscribersNotifier.getReceiveMessages();
+        return subscribersNotifier.getReceivedMessages();
     }
 }

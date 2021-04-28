@@ -17,19 +17,19 @@ public class SubscribersNotifier implements Sender, Receiver {
         return _instance;
     }
 
-    private final List<Message> receiveMessages;
+    private final List<Message> receivedMessages;
 
-    public List<Message> getReceiveMessages() {
-        return receiveMessages;
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
     }
 
     private SubscribersNotifier() {
-        receiveMessages = new ArrayList<>();
+        receivedMessages = new ArrayList<>();
     }
 
     @Override
     public void receiveMSG(Sender sender, Message msg) {
-        receiveMessages.add(msg);
+        receivedMessages.add(msg);
     }
 
     @Override
