@@ -17,5 +17,7 @@ Second year 'Object Oriented Design' Course Final Project
 This program has zero practical uses and is purely an academic effort to practice/implement design patterns and OOP.
 
 
-#### Screenshot
-![Screenshot](https://i.imgur.com/ziVX9mw.png)
+#### Demo
+https://user-images.githubusercontent.com/39451680/117059895-fa9fb600-ad28-11eb-81b0-cfa3ca42803c.mp4
+
+
