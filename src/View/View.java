@@ -262,21 +262,20 @@ public class View extends BorderPane {
 
         textarea.appendText("> Responses:\n");
 
-        new Thread(() -> messages.forEach(message -> {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                showAlert(AlertType.ERROR, e.toString());
-                e.printStackTrace();
-                System.exit(1);
-            }
+        new Thread(() -> {
+            messages.forEach(message -> {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    showAlert(AlertType.ERROR, e.toString());
+                    e.printStackTrace();
+                    System.exit(1);
+                }
 
-            Platform.runLater(() -> textarea.appendText(message.toString()));
-
-            if (message.equals(messages.get(messages.size() - 1))) {
-                Platform.runLater(() -> textarea.appendText("> End of Responses...\n"));
-            }
-        })).start();
+                Platform.runLater(() -> textarea.appendText(message.toString()));
+            });
+            Platform.runLater(() -> textarea.appendText("> End of Responses...\n"));
+        }).start();
     }
 
 }
