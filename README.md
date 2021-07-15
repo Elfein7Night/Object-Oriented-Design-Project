@@ -1,4 +1,4 @@
-# Object-Oriented-Design-Project
+# Object-Oriented-Design-Project [![CodeFactor](https://www.codefactor.io/repository/github/elfein7night/object-oriented-design-project/badge/master)](https://www.codefactor.io/repository/github/elfein7night/object-oriented-design-project/overview/master)
 
 Second year 'Object Oriented Design' Course Final Project
 
