@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 public class FileManager implements Iterable<Product> {
 
-    public static final String FILE_NAME = "products.txt";
+    public static final String FILE_NAME = "products.bin";
     private final File file;
     private RandomAccessFile raf;
 

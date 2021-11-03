@@ -23,11 +23,11 @@ public class Controller {
         store = _store;
         view = _view;
 
-        OrderSelectForm OrderSelectForm = new OrderSelectForm();
-        view.replaceLeft(OrderSelectForm);
-        OrderSelectForm.addEventHandlerToSubmitButton(event -> {
-            if (OrderSelectForm.isFormReady()) {
-                if (store.initMap(OrderSelectForm.getSelected())) {
+        OrderSelectForm orderSelectForm = new OrderSelectForm();
+        view.replaceLeft(orderSelectForm);
+        orderSelectForm.addEventHandlerToSubmitButton(event -> {
+            if (orderSelectForm.isFormReady()) {
+                if (store.initMap(orderSelectForm.getSelected())) {
                     updateForSuccess("Loaded Products From File");
                 }
                 view.initMenu();
@@ -110,7 +110,10 @@ public class Controller {
     }
 
     // for a safer and more readable switch case implementation.
-    enum Operation {DeleteProduct, ShowProduct}
+    enum Operation {
+        DeleteProduct,
+        ShowProduct
+    }
 
     private void operateOnProduct(Operation operation) {
         String serialNum = getSingularUserInput("Enter The Product's Serial Number", "Serial Num");

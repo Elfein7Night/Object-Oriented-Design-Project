@@ -18,7 +18,11 @@ public class Store implements StoreCommand {
     private final SubscribersNotifier subscribersNotifier;
 
     // for a safer and more readable switch case implementation.
-    public enum Order {BY_SERIAL_NUM, BY_SERIAL_NUM_REVERSED, BY_INSERT_ORDER}
+    public enum Order {
+        BY_SERIAL_NUM,
+        BY_SERIAL_NUM_REVERSED,
+        BY_INSERT_ORDER
+    }
 
     public Store() {
         fileManager = new FileManager();
